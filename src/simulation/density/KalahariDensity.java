@@ -1,6 +1,6 @@
 package simulation.density;
 
-import simulation.cell.Vegetation;
+import simulation.grid.cell.Cell;
 
 public class KalahariDensity {
     private double immediacyFactor;
@@ -16,7 +16,7 @@ public class KalahariDensity {
     }
 
     // TODO: calculate actual density
-    public double calculateFor(Vegetation vegetationCellToCheck) {
+    public double calculateFor(Cell cellToCalculateFor) {
         return 0.0;
     }
 

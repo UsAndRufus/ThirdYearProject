@@ -1,4 +1,4 @@
-package simulation.cell;
+package simulation.grid.cell;
 
 public abstract class Cell {
     private int x;
