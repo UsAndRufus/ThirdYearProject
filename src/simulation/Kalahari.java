@@ -14,6 +14,6 @@ public class Kalahari {
     }
 
     public void run() {
-        
+        grid.printToConsole();
     }
 }
