@@ -33,6 +33,7 @@ public class Grid {
         return newGridMap;
     }
 
+    // Temporary printing method, remove or move to other class later
     public void printToConsole() {
         int currentRow = 0;
         int numberOfVegetationCells = 0;
