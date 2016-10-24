@@ -1,6 +1,6 @@
 package simulation.density;
 
-import simulation.grid.cell.Cell;
+import simulation.grid.Grid;
 
 public class KalahariDensity {
     private double immediacyFactor;
@@ -11,12 +11,7 @@ public class KalahariDensity {
         this.maximumDistance = maximumDistance;
     }
 
-    public KalahariDensity(double immediacyFactor) {
-        this.immediacyFactor = immediacyFactor;
-    }
-
-    // TODO: calculate actual density
-    public double calculateFor(Cell cellToCalculateFor) {
+    public double calculateFor(Grid grid, int row, int column) {
         return 0.0;
     }
 

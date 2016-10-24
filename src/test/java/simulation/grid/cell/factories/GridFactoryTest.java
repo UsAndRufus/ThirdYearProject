@@ -1,7 +1,8 @@
-package simulation.grid;
+package simulation.grid.cell.factories;
 
 import javafx.util.Pair;
 import org.junit.Test;
+import simulation.grid.Grid;
 import simulation.grid.cell.Cell;
 import simulation.grid.cell.factories.TestCellFactory;
 
@@ -9,24 +10,26 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class GridTest {
+public class GridFactoryTest {
+
+    private GridFactory gridFactory = new GridFactory(new TestCellFactory());
 
     @Test
     public void createNewGridMap() throws Exception {
         int numberOfRows = 10;
         int numberOfColumns = 10;
         Map<Pair<Integer, Integer>, Cell> gridMap
-                = Grid.createNewGridMap(numberOfRows, numberOfColumns, new TestCellFactory());
+                = gridFactory.createNewGridMap(numberOfRows, numberOfColumns);
         assertGridMapCorrectSize(gridMap, numberOfRows, numberOfColumns);
 
         numberOfRows = 5;
         numberOfColumns = 20;
-        gridMap = Grid.createNewGridMap(numberOfRows, numberOfColumns, new TestCellFactory());
+        gridMap = gridFactory.createNewGridMap(numberOfRows, numberOfColumns);
         assertGridMapCorrectSize(gridMap, numberOfRows, numberOfColumns);
 
         numberOfRows = 100;
         numberOfColumns = 1;
-        gridMap = Grid.createNewGridMap(numberOfRows, numberOfColumns, new TestCellFactory());
+        gridMap = gridFactory.createNewGridMap(numberOfRows, numberOfColumns);
         assertGridMapCorrectSize(gridMap, numberOfRows, numberOfColumns);
     }
 

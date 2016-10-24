@@ -2,6 +2,7 @@ package simulation;
 
 import simulation.grid.Grid;
 import simulation.grid.cell.factories.CellFactory;
+import simulation.grid.cell.factories.GridFactory;
 import simulation.grid.cell.factories.KalahariCellFactory;
 
 public class Kalahari {
@@ -10,7 +11,8 @@ public class Kalahari {
 
     public Kalahari(int numberOfRows, int numberOfColumns, double proportionVegetation) {
         CellFactory kalahariCellFactory = new KalahariCellFactory(proportionVegetation);
-        grid = new Grid(numberOfRows, numberOfColumns, kalahariCellFactory);
+        GridFactory gridFactory = new GridFactory(kalahariCellFactory);
+        grid = new Grid(numberOfRows, numberOfColumns, gridFactory);
     }
 
     public void run() {
