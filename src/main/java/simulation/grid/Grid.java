@@ -14,14 +14,13 @@ public class Grid {
     private int numberOfRows;
     private int numberOfColumns;
 
-    //TODO: write tests!!
     public Grid(int numberOfRows, int numberOfColumns, CellFactory cellFactory) {
         this.gridMap = createNewGridMap(numberOfRows, numberOfColumns, cellFactory);
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
     }
 
-    private  Map<Pair<Integer, Integer>, Cell> createNewGridMap(int numberOfRows, int numberOfColumns, CellFactory cellFactory) {
+    protected static Map<Pair<Integer, Integer>, Cell> createNewGridMap(int numberOfRows, int numberOfColumns, CellFactory cellFactory) {
         Map<Pair<Integer, Integer>, Cell> newGridMap = new HashMap<>(numberOfRows * numberOfColumns);
 
         for (Integer x = 0; x < numberOfRows; x++) {
