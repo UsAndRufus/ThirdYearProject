@@ -6,11 +6,11 @@ import simulation.grid.cell.Cell;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GridFactory {
+public class GridMapFactory {
 
     private CellFactory cellFactory;
 
-    public GridFactory(CellFactory cellFactory) {
+    public GridMapFactory(CellFactory cellFactory) {
         this.cellFactory = cellFactory;
     }
 

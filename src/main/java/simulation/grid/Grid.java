@@ -1,13 +1,11 @@
 package simulation.grid;
 
+import javafx.geometry.Pos;
 import javafx.util.Pair;
 import simulation.grid.cell.Cell;
-import simulation.grid.cell.NonVegetation;
 import simulation.grid.cell.Vegetation;
-import simulation.grid.cell.factories.CellFactory;
-import simulation.grid.cell.factories.GridFactory;
+import simulation.grid.cell.factories.GridMapFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Grid {
@@ -15,10 +13,14 @@ public class Grid {
     private int numberOfRows;
     private int numberOfColumns;
 
-    public Grid(int numberOfRows, int numberOfColumns, GridFactory gridFactory) {
-        this.gridMap = gridFactory.createNewGridMap(numberOfRows, numberOfColumns);
+    public Grid(int numberOfRows, int numberOfColumns, GridMapFactory gridMapFactory) {
+        this.gridMap = gridMapFactory.createNewGridMap(numberOfRows, numberOfColumns);
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
+    }
+
+    public Cell getCell(Position position) {
+        return null;
     }
 
     // Temporary printing method, remove or move to other class later
