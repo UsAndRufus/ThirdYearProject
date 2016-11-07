@@ -50,4 +50,9 @@ public class KalahariDensityTest {
                 expected, kalahariDensity.calculateFor(new Position(row, column)), DELTA);
     }
 
+    @Test
+    public void testGetNumberOfCellsInRange() {
+
+    }
+
 }

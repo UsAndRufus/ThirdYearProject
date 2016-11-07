@@ -33,7 +33,8 @@ public class KalahariDensity {
         return 0.0;
     }
 
-    private Map<Integer, Integer> getNumberOfCellsInRange(int maximumDistance, Position position,
+    //Visible for testing
+    protected Map<Integer, Integer> getNumberOfCellsInRange(int maximumDistance, Position position,
                                                           Class<? extends Cell> cellClass) {
         Map<Integer, Integer> numberOfCellsAtDistance = new HashMap<>(maximumDistance);
 

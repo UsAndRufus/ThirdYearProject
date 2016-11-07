@@ -1,21 +1,28 @@
 package simulation.grid.cell.factories;
 
-import simulation.grid.Position;
 import simulation.grid.cell.Cell;
 import simulation.grid.cell.NonVegetation;
 import simulation.grid.cell.Vegetation;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class KalahariTestCellGridFactory extends CellGridFactory {
     public KalahariTestCellGridFactory(CellFactory cellFactory) {
         super(cellFactory);
     }
 
+    // Grid looks like this:
+    // [~][ ][ ][ ][~]
+    // [~][ ][~][ ][ ]
+    // [ ][~][~][~][~]
+    // [~][ ][ ][~][ ]
+    // [ ][~][~][~][ ]
+    // [~][~][~][~][~]
+
     @Override
     public Cell[][] createNewCellGrid(int numberOfRows, int numberOfColumns) {
-        Cell[][] cellGrid = new Cell[numberOfRows][numberOfColumns];
+        int trueNumberOfRows = 6;
+        int trueNumberOfColumns = 5;
+
+        Cell[][] cellGrid = new Cell[trueNumberOfRows][trueNumberOfColumns];
 
         cellGrid[0][0] = new Vegetation();
         cellGrid[0][1] = new NonVegetation();

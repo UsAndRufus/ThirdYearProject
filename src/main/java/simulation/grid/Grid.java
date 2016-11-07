@@ -17,7 +17,14 @@ public class Grid {
     }
 
     public Cell getCell(Position position) {
-        return null;
+        if ((position.getX() > numberOfColumns) ||
+                (position.getX() < 0) ||
+                (position.getY() > numberOfRows) ||
+                (position.getY() < 0)) {
+            return null;
+        }
+
+        return cellGrid[position.getY()][position.getX()];
     }
 
     // Temporary printing method, remove or move to other class later
