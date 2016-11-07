@@ -17,9 +17,9 @@ public class Grid {
     }
 
     public Cell getCell(Position position) {
-        if ((position.getX() > numberOfColumns) ||
+        if ((position.getX() >= numberOfColumns) ||
                 (position.getX() < 0) ||
-                (position.getY() > numberOfRows) ||
+                (position.getY() >= numberOfRows) ||
                 (position.getY() < 0)) {
             return null;
         }

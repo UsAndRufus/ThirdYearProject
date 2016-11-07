@@ -3,6 +3,8 @@ package simulation.density;
 import simulation.grid.Grid;
 import simulation.grid.Position;
 import simulation.grid.cell.Cell;
+import simulation.grid.cell.NonVegetation;
+import simulation.grid.cell.Vegetation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +23,12 @@ public class KalahariDensity {
 
     public double calculateFor(Position position) {
         // get number of vegetation at distance 1 -> x
+        Map<Integer, Integer> numberOfVegetationAtDistance
+                = getNumberOfCellsInRange(maximumDistance, position, Vegetation.class);
 
         // get number of non-veg at distance 1 -> x
+        Map<Integer, Integer> numberOfNonVegetationAtDistance
+                = getNumberOfCellsInRange(maximumDistance, position, NonVegetation.class);
 
         // pareto-ish thing for all
 
@@ -34,16 +40,28 @@ public class KalahariDensity {
     }
 
     //Visible for testing
-    protected Map<Integer, Integer> getNumberOfCellsInRange(int maximumDistance, Position position,
+    protected Map<Integer, Integer> getNumberOfCellsInRange(int maximumDistance, Position centre,
                                                           Class<? extends Cell> cellClass) {
         Map<Integer, Integer> numberOfCellsAtDistance = new HashMap<>(maximumDistance);
 
         for(int currentDistance = 1; currentDistance <= maximumDistance; currentDistance++) {
-            int cellAtDistance = 0;
-            for(int x = position.getX() - currentDistance; x <= position.getX() + currentDistance; x++) {
-                for(int y = position.getY() - currentDistance; y <= position.getY() + currentDistance; x++) {
+            int cellsAtDistance = 0;
+            for(int y = centre.getY() - currentDistance; y <= centre.getY() + currentDistance; y++) {
+                for(int x = centre.getX() - currentDistance; x <= centre.getX() + currentDistance; x++) {
+                    Position currentPosition = new Position(x,y);
+                    if (!currentPosition.equals(centre)) {
+                        Cell currentCell = grid.getCell(currentPosition);
+                        try {
+                            if (cellClass.newInstance().getClass().isInstance(currentCell)) {
+                                cellsAtDistance++;
+                            }
+                        } catch (InstantiationException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
+            numberOfCellsAtDistance.put(currentDistance, cellsAtDistance);
         }
 
         return numberOfCellsAtDistance;

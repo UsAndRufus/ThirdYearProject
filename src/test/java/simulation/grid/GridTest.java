@@ -16,7 +16,7 @@ public class GridTest {
 
     @Before
     public void setUp() throws Exception {
-        grid = new Grid(5,6, new KalahariTestCellGridFactory(new TestCellFactory()));
+        grid = new Grid(6,5, new KalahariTestCellGridFactory(new TestCellFactory()));
     }
 
     @Test
@@ -37,8 +37,8 @@ public class GridTest {
 
     @Test
     public void testGetCellOutOfBounds() throws Exception {
-        Position position = new Position(5,6);
-        assertNull("[getCell] Cell at 5,6 should be out of bounds", grid.getCell(position));
+        Position position = new Position(6,5);
+        assertNull("[getCell] Cell at 6,5 should be out of bounds", grid.getCell(position));
 
         position = new Position(3,7);
         assertNull("[getCell] Cell at 3,7 should be out of bounds", grid.getCell(position));
