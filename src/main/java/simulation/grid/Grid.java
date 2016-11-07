@@ -1,22 +1,32 @@
 package simulation.grid;
 
-import javafx.geometry.Pos;
-import javafx.util.Pair;
 import simulation.grid.cell.Cell;
 import simulation.grid.cell.Vegetation;
-import simulation.grid.cell.factories.GridMapFactory;
-
-import java.util.Map;
+import simulation.grid.cell.factories.CellFactory;
 
 public class Grid {
-    private Map<Pair<Integer, Integer>, Cell> gridMap;
+    private Cell[][] cellGrid;
+
     private int numberOfRows;
     private int numberOfColumns;
 
-    public Grid(int numberOfRows, int numberOfColumns, GridMapFactory gridMapFactory) {
-        this.gridMap = gridMapFactory.createNewGridMap(numberOfRows, numberOfColumns);
+    public Grid(int numberOfRows, int numberOfColumns, CellFactory cellFactory) {
+        this.cellGrid = createCellGrid(numberOfRows, numberOfColumns, cellFactory);
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
+    }
+
+    //TODO refactor gridmapfactory and move this there later;
+    private Cell[][] createCellGrid(int numberOfRows, int numberOfColumns, CellFactory cellFactory) {
+        Cell[][] cellGrid = new Cell[numberOfRows][numberOfColumns];
+
+        for (int currentRow = 0; currentRow < numberOfRows; currentRow++) {
+            for (int currentColumn = 0; currentColumn < numberOfColumns; currentColumn++) {
+                cellGrid[currentRow][currentColumn] = cellFactory.createCell();
+            }
+        }
+
+        return cellGrid;
     }
 
     public Cell getCell(Position position) {
@@ -25,23 +35,21 @@ public class Grid {
 
     // Temporary printing method, remove or move to other class later
     public void printToConsole() {
-        int currentRow = 0;
         int numberOfVegetationCells = 0;
         int totalNumberOfCells = 0;
 
-        for (Map.Entry<Pair<Integer, Integer>, Cell> entry : gridMap.entrySet()) {
-            if(entry.getKey().getKey() > currentRow) {
-                currentRow++;
-                System.out.println();
+        for (int currentRow = 0; currentRow < numberOfRows; currentRow++) {
+            for (int currentColumn = 0; currentColumn < numberOfColumns; currentColumn++) {
+                if (cellGrid[currentRow][currentColumn] instanceof Vegetation) {
+                    System.out.print("[~]");
+                    numberOfVegetationCells++;
+                    totalNumberOfCells++;
+                } else {
+                    System.out.print("[ ]");
+                    totalNumberOfCells++;
+                }
             }
-            if (entry.getValue() instanceof Vegetation) {
-                System.out.print("[~]");
-                numberOfVegetationCells++;
-                totalNumberOfCells++;
-            } else {
-                System.out.print("[ ]");
-                totalNumberOfCells++;
-            }
+            System.out.println();
         }
 
         System.out.println();

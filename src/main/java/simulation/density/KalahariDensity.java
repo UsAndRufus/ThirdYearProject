@@ -4,9 +4,7 @@ import simulation.grid.Grid;
 import simulation.grid.Position;
 import simulation.grid.cell.Cell;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class KalahariDensity {

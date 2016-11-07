@@ -4,8 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import simulation.grid.Grid;
 import simulation.grid.Position;
-import simulation.grid.cell.factories.GridMapFactory;
-import simulation.grid.cell.factories.KalahariTestGridMapFactory;
+import simulation.grid.cell.factories.CellGridFactory;
+import simulation.grid.cell.factories.KalahariCellFactory;
+import simulation.grid.cell.factories.KalahariTestCellGridFactory;
 import simulation.grid.cell.factories.TestCellFactory;
 
 import static org.junit.Assert.*;
@@ -21,8 +22,8 @@ public class KalahariDensityTest {
 
     @Before
     public void setUp() throws Exception {
-        GridMapFactory gridMapFactory = new KalahariTestGridMapFactory(new TestCellFactory());
-        grid = new Grid(6,5, gridMapFactory);
+        CellGridFactory cellGridFactory = new KalahariTestCellGridFactory(new TestCellFactory());
+        grid = new Grid(6,5, new KalahariCellFactory(1));
     }
 
     @Test
