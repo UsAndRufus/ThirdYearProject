@@ -12,7 +12,7 @@ public class Kalahari {
     public Kalahari(int numberOfRows, int numberOfColumns, double proportionVegetation) {
         CellFactory kalahariCellFactory = new KalahariCellFactory(proportionVegetation);
         CellGridFactory cellGridFactory = new CellGridFactory(kalahariCellFactory);
-        grid = new Grid(numberOfRows, numberOfColumns, kalahariCellFactory);
+        grid = new Grid(numberOfRows, numberOfColumns, cellGridFactory);
     }
 
     public void run() {

@@ -23,7 +23,7 @@ public class KalahariDensityTest {
     @Before
     public void setUp() throws Exception {
         CellGridFactory cellGridFactory = new KalahariTestCellGridFactory(new TestCellFactory());
-        grid = new Grid(6,5, new KalahariCellFactory(1));
+        grid = new Grid(6,5, cellGridFactory);
     }
 
     @Test

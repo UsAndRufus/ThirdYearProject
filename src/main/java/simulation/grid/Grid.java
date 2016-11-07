@@ -2,7 +2,7 @@ package simulation.grid;
 
 import simulation.grid.cell.Cell;
 import simulation.grid.cell.Vegetation;
-import simulation.grid.cell.factories.CellFactory;
+import simulation.grid.cell.factories.CellGridFactory;
 
 public class Grid {
     private Cell[][] cellGrid;
@@ -10,23 +10,10 @@ public class Grid {
     private int numberOfRows;
     private int numberOfColumns;
 
-    public Grid(int numberOfRows, int numberOfColumns, CellFactory cellFactory) {
-        this.cellGrid = createCellGrid(numberOfRows, numberOfColumns, cellFactory);
+    public Grid(int numberOfRows, int numberOfColumns, CellGridFactory cellGridFactory) {
+        this.cellGrid = cellGridFactory.createNewCellGrid(numberOfRows, numberOfColumns);
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
-    }
-
-    //TODO refactor gridmapfactory and move this there later;
-    private Cell[][] createCellGrid(int numberOfRows, int numberOfColumns, CellFactory cellFactory) {
-        Cell[][] cellGrid = new Cell[numberOfRows][numberOfColumns];
-
-        for (int currentRow = 0; currentRow < numberOfRows; currentRow++) {
-            for (int currentColumn = 0; currentColumn < numberOfColumns; currentColumn++) {
-                cellGrid[currentRow][currentColumn] = cellFactory.createCell();
-            }
-        }
-
-        return cellGrid;
     }
 
     public Cell getCell(Position position) {
