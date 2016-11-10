@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import simulation.grid.Grid;
 import simulation.grid.Position;
+import simulation.grid.cell.Cell;
 import simulation.grid.cell.NonVegetation;
 import simulation.grid.cell.Vegetation;
 import simulation.grid.cell.factories.CellGridFactory;
@@ -85,6 +86,21 @@ public class KalahariDensityTest {
         rangeMap = kalahariDensity.getNumberOfCellsInRange(1, new Position(4,5), NonVegetation.class);
         assertEquals("[testGetNumberOfCellsInRange1] Number of non-vegetation cells should be 1",
                 new Integer(1), rangeMap.get(1));
+
+
+    }
+
+    @Test
+    public void testGetNumberOfCellsInRange1ForTypeCell() {
+        kalahariDensity = new KalahariDensity(immediacyFactor, 1, grid);
+
+        Map<Integer,Integer> rangeMap = kalahariDensity.getNumberOfCellsInRange(1, new Position(0,0), Cell.class);
+        assertEquals("[testGetNumberOfCellsInRange1] Number of cells should be 3",
+                new Integer(3), rangeMap.get(1));
+
+        rangeMap = kalahariDensity.getNumberOfCellsInRange(1, new Position(4,5), Cell.class);
+        assertEquals("[testGetNumberOfCellsInRange1] Number of cells should be 8",
+                new Integer(8), rangeMap.get(1));
     }
 
     @Test
@@ -113,6 +129,17 @@ public class KalahariDensityTest {
                 new Integer(3), rangeMap.get(2));
         assertEquals("[testGetNumberOfCellsInRange2] Number of non-vegetation cells at range 1 should be 1",
                 new Integer(1), rangeMap.get(1));
+    }
+
+    @Test
+    public void testGetNumberOfCellsInRange2ForTypeCell() {
+        kalahariDensity = new KalahariDensity(immediacyFactor, 1, grid);
+
+        Map<Integer,Integer> rangeMap = kalahariDensity.getNumberOfCellsInRange(2, new Position(2,2), Cell.class);
+        assertEquals("[testGetNumberOfCellsInRange1] Number of cells should be 16",
+                new Integer(16), rangeMap.get(2));
+        assertEquals("[testGetNumberOfCellsInRange1] Number of cells should be 8",
+                new Integer(8), rangeMap.get(1));
     }
 
 }

@@ -40,6 +40,8 @@ public class KalahariDensity {
     }
 
     //Visible for testing
+    //TODO: distance done wrong I think. Should be Manhattan distance, faking a circle (extended cross style, not a square)
+    //TODO: so rewrite tests and redo this
     protected Map<Integer, Integer> getNumberOfCellsInRange(int maximumDistance, Position centre,
                                                           Class<? extends Cell> cellClass) {
         Map<Integer, Integer> numberOfCellsAtDistance = new HashMap<>(maximumDistance);
@@ -51,12 +53,8 @@ public class KalahariDensity {
                     Position currentPosition = new Position(x,y);
                     if (!currentPosition.equals(centre)) {
                         Cell currentCell = grid.getCell(currentPosition);
-                        try {
-                            if (cellClass.newInstance().getClass().isInstance(currentCell)) {
-                                cellsAtDistance++;
-                            }
-                        } catch (InstantiationException | IllegalAccessException e) {
-                            e.printStackTrace();
+                        if (cellClass.isInstance(currentCell)) {
+                            cellsAtDistance++;
                         }
                     }
                 }
@@ -65,6 +63,10 @@ public class KalahariDensity {
         }
 
         return numberOfCellsAtDistance;
+    }
+
+    protected double pareto(Map<Integer, Integer> numberOfCellsAtDistance, double immediacyFactor) {
+        return 0.0;
     }
 
     public double getImmediacyFactor() {

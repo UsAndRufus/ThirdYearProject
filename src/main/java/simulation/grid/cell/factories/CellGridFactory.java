@@ -2,6 +2,7 @@ package simulation.grid.cell.factories;
 
 import simulation.grid.cell.Cell;
 
+//TODO: would make more sense for this to just be GridFactory I think
 public class CellGridFactory {
 
     private CellFactory cellFactory;
