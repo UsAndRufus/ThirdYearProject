@@ -49,7 +49,26 @@ public class KalahariDensityTest {
 
         int x = 2;
         int y = 2;
-        double expected = 0.75; // did the maths on paper yo
+        double expected = 0.675; // did the maths on paper yo
+
+        assertEquals("[testCalculateFor] The density given should be the one from hand calculation (within delta)",
+                expected, kalahariDensity.calculateFor(new Position(x, y)), DELTA);
+
+        x = 4;
+        y = 5;
+        expected = 10.0 / 19.0; // did the maths on paper yo
+
+        assertEquals("[testCalculateFor] The density given should be the one from hand calculation (within delta)",
+                expected, kalahariDensity.calculateFor(new Position(x, y)), DELTA);
+    }
+
+    @Test
+    public void testCalculateForWithMaximumDistance3() throws Exception {
+        kalahariDensity = new KalahariDensity(immediacyFactor, 3, grid);
+
+        int x = 2;
+        int y = 2;
+        double expected = 769.0 / 1152.0; // did the maths on paper yo
 
         assertEquals("[testCalculateFor] The density given should be the one from hand calculation (within delta)",
                 expected, kalahariDensity.calculateFor(new Position(x, y)), DELTA);

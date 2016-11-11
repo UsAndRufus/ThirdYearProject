@@ -44,7 +44,6 @@ public class KalahariDensity {
     }
 
     // Visible for testing
-    // TODO: ugh, redo this again so it does ranges 1->n not just n........
     protected Map<Integer, Integer> getNumberOfCellsInRange(int maximumDistance, Position centre,
                                                           Class<? extends Cell> cellClass) {
         Map<Integer, Integer> numberOfCellsAtDistance = new HashMap<>(maximumDistance);
