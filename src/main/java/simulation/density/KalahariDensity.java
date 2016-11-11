@@ -3,7 +3,6 @@ package simulation.density;
 import simulation.grid.Grid;
 import simulation.grid.Position;
 import simulation.grid.cell.Cell;
-import simulation.grid.cell.NonVegetation;
 import simulation.grid.cell.Vegetation;
 
 import java.util.HashMap;
@@ -22,11 +21,9 @@ public class KalahariDensity {
     }
 
     public double calculateFor(Position position) {
-        // get number of vegetation at distance 1 -> x
         Map<Integer, Integer> numberOfVegetationAtDistance
                 = getNumberOfCellsInRange(maximumDistance, position, Vegetation.class);
 
-        // get number of cells at distance 1 -> x
         // TODO: can probably just precompute this rather than expensive operation
         Map<Integer, Integer> numberOfCellsAtDistance
                 = getNumberOfCellsInRange(maximumDistance, position, Cell.class);

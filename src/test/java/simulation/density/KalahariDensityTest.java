@@ -8,7 +8,6 @@ import simulation.grid.cell.Cell;
 import simulation.grid.cell.NonVegetation;
 import simulation.grid.cell.Vegetation;
 import simulation.grid.cell.factories.CellGridFactory;
-import simulation.grid.cell.factories.KalahariCellFactory;
 import simulation.grid.cell.factories.KalahariTestCellGridFactory;
 import simulation.grid.cell.factories.TestCellFactory;
 

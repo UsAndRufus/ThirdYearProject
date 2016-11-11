@@ -12,6 +12,8 @@ import static org.junit.Assert.*;
 
 public class GridTest {
 
+    private static final double DELTA = 1e-15;
+
     private Grid grid;
 
     @Before
@@ -47,4 +49,11 @@ public class GridTest {
         assertNull("[getCell] Cell at -1,-1 should be out of bounds", grid.getCell(position));
     }
 
+    @Test
+    public void testGetFractionalVegetationCover() {
+        double expected = 18.0 / 30.0;
+
+        assertEquals("[testGetFractionalVegetationCover] Actual value should be same as hand-calculated value",
+                expected, grid.getFractionalVegetationCover(), DELTA);
+    }
 }

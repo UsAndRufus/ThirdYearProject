@@ -18,4 +18,14 @@ public class Kalahari {
     public void run() {
         grid.printToConsole();
     }
+
+    public void tick() {
+
+    }
+
+    public double calculateNonVegetationToVegetationTransitionProbability(double vegetationDensity,
+                                                                          double fractionalVegetationCover,
+                                                                          double fractionalVegetationCoverWithRainfall) {
+        return 0.0;
+    }
 }

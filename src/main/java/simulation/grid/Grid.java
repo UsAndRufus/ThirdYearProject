@@ -27,6 +27,22 @@ public class Grid {
         return cellGrid[position.getY()][position.getX()];
     }
 
+    public double getFractionalVegetationCover() {
+        int numberOfVegetationCells = 0;
+
+        for(int x = 0; x < numberOfColumns; x++) {
+            for (int y =0; y < numberOfRows; y++) {
+                Position currentPosition = new Position(x,y);
+                Cell currentCell = getCell(currentPosition);
+                if (currentCell instanceof Vegetation) {
+                    numberOfVegetationCells++;
+                }
+            }
+        }
+
+        return numberOfVegetationCells / (double) (numberOfRows * numberOfColumns);
+    }
+
     // Temporary printing method, remove or move to other class later
     public void printToConsole() {
         int numberOfVegetationCells = 0;
