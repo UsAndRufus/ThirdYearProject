@@ -26,47 +26,64 @@ public class KalahariDensity {
         Map<Integer, Integer> numberOfVegetationAtDistance
                 = getNumberOfCellsInRange(maximumDistance, position, Vegetation.class);
 
-        // get number of non-veg at distance 1 -> x
-        Map<Integer, Integer> numberOfNonVegetationAtDistance
-                = getNumberOfCellsInRange(maximumDistance, position, NonVegetation.class);
+        // get number of cells at distance 1 -> x
+        // TODO: can probably just precompute this rather than expensive operation
+        Map<Integer, Integer> numberOfCellsAtDistance
+                = getNumberOfCellsInRange(maximumDistance, position, Cell.class);
 
-        // pareto-ish thing for all
+        double paretoSumForAll = 0.0;
+        double paretoSumForVegetation = 0.0;
 
-        // pareto-ish thing for veg
+        for (int distance = 1; distance <= maximumDistance; distance++) {
+            double paretoForDistance = pareto(distance, immediacyFactor);
+            paretoSumForAll += paretoForDistance * numberOfCellsAtDistance.get(distance);
+            paretoSumForVegetation += paretoForDistance * numberOfVegetationAtDistance.get(distance);
+        }
 
-        // divide
-
-        return 0.0;
+        return paretoSumForVegetation / paretoSumForAll;
     }
 
-    //Visible for testing
-    //TODO: distance done wrong I think. Should be Manhattan distance, faking a circle (extended cross style, not a square)
-    //TODO: so rewrite tests and redo this
+    // Visible for testing
+    // TODO: ugh, redo this again so it does ranges 1->n not just n........
     protected Map<Integer, Integer> getNumberOfCellsInRange(int maximumDistance, Position centre,
                                                           Class<? extends Cell> cellClass) {
         Map<Integer, Integer> numberOfCellsAtDistance = new HashMap<>(maximumDistance);
 
         for(int currentDistance = 1; currentDistance <= maximumDistance; currentDistance++) {
             int cellsAtDistance = 0;
-            for(int y = centre.getY() - currentDistance; y <= centre.getY() + currentDistance; y++) {
-                for(int x = centre.getX() - currentDistance; x <= centre.getX() + currentDistance; x++) {
+            boolean increaseY = true;
+            int yChange = 0;
+            for(int x = centre.getX() - currentDistance; x <= centre.getX() + currentDistance; x++) {
+                for(int y = centre.getY() - yChange; y <= centre.getY() + yChange; y += yChange*2) {
                     Position currentPosition = new Position(x,y);
-                    if (!currentPosition.equals(centre)) {
-                        Cell currentCell = grid.getCell(currentPosition);
-                        if (cellClass.isInstance(currentCell)) {
-                            cellsAtDistance++;
-                        }
+                    Cell currentCell = grid.getCell(currentPosition);
+                    if (cellClass.isInstance(currentCell)) {
+                        cellsAtDistance++;
+                    }
+                    if (yChange == 0) {
+                        break;
                     }
                 }
+
+                if (increaseY) {
+                    yChange++;
+                } else {
+                    yChange--;
+                }
+
+                if (yChange == currentDistance) {
+                    increaseY = false;
+                }
+
             }
             numberOfCellsAtDistance.put(currentDistance, cellsAtDistance);
         }
 
         return numberOfCellsAtDistance;
     }
-
-    protected double pareto(Map<Integer, Integer> numberOfCellsAtDistance, double immediacyFactor) {
-        return 0.0;
+    // Visible for testing
+    protected double pareto(int distance, double immediacyFactor) {
+        return Math.pow(1.0 / (double) distance, immediacyFactor);
     }
 
     public double getImmediacyFactor() {
