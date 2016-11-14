@@ -4,6 +4,8 @@ import simulation.grid.cell.Cell;
 import simulation.grid.cell.Vegetation;
 import simulation.grid.cell.factories.CellGridFactory;
 
+import java.util.*;
+
 public class Grid {
     private Cell[][] cellGrid;
 
@@ -25,6 +27,40 @@ public class Grid {
         }
 
         return cellGrid[position.getY()][position.getX()];
+    }
+
+    public void setCell(Position position, Cell cell) {
+        if (getCell(position) == null) {
+            throw new IllegalArgumentException("Cannot set cell if position out of bounds");
+        }
+
+        cellGrid[position.getY()][position.getX()] = cell;
+    }
+
+    public List<Position> getRandomPositions(double fractionOfPositionsToChoose) {
+        int numberOfPositionsToChoose = (int) (numberOfRows * numberOfColumns * fractionOfPositionsToChoose);
+
+        List<Position> positions = new ArrayList<>(numberOfPositionsToChoose);
+
+        for (int currentCell = 0; currentCell < numberOfPositionsToChoose; currentCell++) {
+            Position currentPosition = getRandomPosition();
+            while (positions.contains(currentPosition)) {
+                currentPosition = getRandomPosition();
+            }
+
+            positions.add(currentPosition);
+        }
+
+        return positions;
+    }
+
+    private Position getRandomPosition() {
+        Random random = new Random();
+
+        int randomX = random.nextInt(numberOfColumns);
+        int randomY = random.nextInt(numberOfRows);
+
+        return new Position(randomX, randomY);
     }
 
     public double getFractionalVegetationCover() {
@@ -62,7 +98,7 @@ public class Grid {
             System.out.println();
         }
 
-        System.out.println();
         System.out.println("" + numberOfVegetationCells + "/" + totalNumberOfCells + " vegetation/total");
+        System.out.println();
     }
 }

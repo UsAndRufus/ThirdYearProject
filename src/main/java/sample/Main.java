@@ -16,7 +16,7 @@ public class Main extends Application {
 //        primaryStage.setScene(new Scene(root, 300, 275));
         //primaryStage.show();
 
-        Kalahari kalahari = new Kalahari(10, 10, 0.3);
+        Kalahari kalahari = new Kalahari(20, 40, 0.25);
         kalahari.run();
     }
 
