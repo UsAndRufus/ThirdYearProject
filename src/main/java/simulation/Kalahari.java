@@ -13,6 +13,7 @@ import simulation.grid.cell.factories.KalahariCellFactory;
 import java.util.List;
 import java.util.Random;
 
+// TODO: this class needs tests
 public class Kalahari {
 
     private Grid grid;
@@ -39,8 +40,7 @@ public class Kalahari {
         grid.printToConsole();
     }
 
-    // Visible for testing
-    protected void tick() {
+    private void tick() {
         List<Position> positions = grid.getRandomPositions(fractionOfCellsToUpdateEveryTick);
 
         for (Position position : positions) {
