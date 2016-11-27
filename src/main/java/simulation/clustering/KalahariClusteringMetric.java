@@ -28,7 +28,9 @@ public class KalahariClusteringMetric {
                         (!visitedPositions.contains(currentPosition))) {
                     Cluster currentCluster = createClusterFrom(currentPosition);
                     visitedPositions.addAll(currentCluster.getPositions());
-                    clusters.add(currentCluster);
+                    if (currentCluster.getNumberOfPositionsInCluster() != 0) {
+                        clusters.add(currentCluster);
+                    }
                 }
             }
         }
