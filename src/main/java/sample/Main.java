@@ -16,12 +16,13 @@ public class Main extends Application {
 //        primaryStage.setScene(new Scene(root, 300, 275));
         //primaryStage.show();
 
-        Kalahari kalahari = new Kalahari(20, 40, 0.25);
-        kalahari.run();
+
     }
 
 
     public static void main(String[] args) {
-        launch(args);
+        //launch(args);
+        Kalahari kalahari = new Kalahari(10, 10, 0.25);
+        kalahari.run();
     }
 }

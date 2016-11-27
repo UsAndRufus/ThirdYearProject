@@ -1,6 +1,8 @@
 package simulation.grid;
 
-// Effectively a semantic javafx.util.Pair
+import java.util.HashSet;
+import java.util.Set;
+
 public class Position {
     private int x;
     private int y;
@@ -16,6 +18,17 @@ public class Position {
 
     public int getY() {
         return y;
+    }
+
+    public Set<Position> getNeighbours() {
+        Set<Position> neighbours = new HashSet<>(4);
+
+        neighbours.add(new Position(x-1,y));
+        neighbours.add(new Position(x+1,y));
+        neighbours.add(new Position(x,y-1));
+        neighbours.add(new Position(x,y+1));
+
+        return neighbours;
     }
 
     @Override

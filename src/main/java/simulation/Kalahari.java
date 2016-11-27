@@ -1,5 +1,7 @@
 package simulation;
 
+import simulation.clustering.Cluster;
+import simulation.clustering.KalahariClusteringMetric;
 import simulation.density.KalahariDensity;
 import simulation.grid.Grid;
 import simulation.grid.Position;
@@ -10,6 +12,7 @@ import simulation.grid.cell.factories.CellFactory;
 import simulation.grid.cell.factories.CellGridFactory;
 import simulation.grid.cell.factories.KalahariCellFactory;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -34,10 +37,23 @@ public class Kalahari {
 
     public void run() {
         grid.printToConsole();
-        for (int year = 0; year < 1000; year++) {
+        for (int year = 0; year < 200; year++) {
             tick();
         }
         grid.printToConsole();
+
+        KalahariClusteringMetric kalahariClusteringMetric = new KalahariClusteringMetric(grid);
+
+        List<Cluster> clusters = kalahariClusteringMetric.getClusters();
+
+        System.out.println("There are " + clusters.size() + " clusters");
+
+        clusters.stream()
+                .sorted(Comparator.comparing(Cluster::getNumberOfPositionsInCluster).reversed())
+                .map(cluster -> "Cluster with " + cluster.getNumberOfPositionsInCluster() + " positions")
+                .forEach(System.out::println);
+
+        System.out.println("done");
     }
 
     private void tick() {

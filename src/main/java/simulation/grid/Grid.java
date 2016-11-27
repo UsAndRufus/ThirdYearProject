@@ -6,6 +6,7 @@ import simulation.grid.cell.factories.CellGridFactory;
 
 import java.util.*;
 
+// TODO: make iterable
 public class Grid {
     private Cell[][] cellGrid;
 
@@ -77,6 +78,14 @@ public class Grid {
         }
 
         return numberOfVegetationCells / (double) (numberOfRows * numberOfColumns);
+    }
+
+    public int getNumberOfRows() {
+        return numberOfRows;
+    }
+
+    public int getNumberOfColumns() {
+        return numberOfColumns;
     }
 
     // Temporary printing method, remove or move to other class later
