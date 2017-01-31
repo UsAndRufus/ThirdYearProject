@@ -5,6 +5,10 @@ import simulation.grid.cell.NonVegetation;
 import simulation.grid.cell.Vegetation;
 
 public class KalahariTestCellGridFactory extends CellGridFactory {
+
+    private int numberOfColumns = 5;
+    private int numberOfRows = 6;
+
     public KalahariTestCellGridFactory(CellFactory cellFactory) {
         super(cellFactory);
     }
@@ -61,5 +65,13 @@ public class KalahariTestCellGridFactory extends CellGridFactory {
         cellGrid[5][4] = new Vegetation();
 
         return cellGrid;
+    }
+
+    public int getNumberOfColumns() {
+        return numberOfColumns;
+    }
+
+    public int getNumberOfRows() {
+        return numberOfRows;
     }
 }

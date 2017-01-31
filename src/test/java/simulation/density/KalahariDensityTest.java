@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import simulation.grid.Grid;
 import simulation.grid.Position;
+import simulation.grid.TestGridFactory;
 import simulation.grid.cell.Cell;
 import simulation.grid.cell.NonVegetation;
 import simulation.grid.cell.Vegetation;
@@ -26,8 +27,7 @@ public class KalahariDensityTest {
 
     @Before
     public void setUp() throws Exception {
-        CellGridFactory cellGridFactory = new KalahariTestCellGridFactory(new TestCellFactory());
-        grid = new Grid(6,5, cellGridFactory);
+        grid = TestGridFactory.createTestGrid();
     }
 
     @Test

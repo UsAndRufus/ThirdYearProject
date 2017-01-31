@@ -28,7 +28,7 @@ public class GridTest {
 
     @Before
     public void setUp() throws Exception {
-        grid = new Grid(xBound,yBound, new KalahariTestCellGridFactory(new TestCellFactory()));
+        grid = TestGridFactory.createTestGrid();
     }
 
     @Test

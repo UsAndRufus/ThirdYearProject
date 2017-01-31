@@ -24,4 +24,12 @@ public class Cluster {
     public int getNumberOfPositionsInCluster() {
         return positions.size();
     }
+
+    @Override
+    public String toString() {
+        return "Cluster{" +
+                " Contains: " + positions.iterator().next() +
+                ", numberOfPositions: " + getNumberOfPositionsInCluster() +
+                "}";
+    }
 }
