@@ -26,6 +26,22 @@ public class Cluster {
     }
 
     @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other instanceof Cluster ) {
+            if (((Cluster) other).getNumberOfPositionsInCluster() == this.getNumberOfPositionsInCluster()) {
+                Set<Position> thisPositions = new HashSet<>(this.positions);
+                Set<Position> otherPositions = new HashSet<>(((Cluster) other).getPositions());
+
+                thisPositions.removeAll(otherPositions);
+
+                return (thisPositions.isEmpty());
+            }
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Cluster{" +
                 " Contains: " + positions.iterator().next() +
