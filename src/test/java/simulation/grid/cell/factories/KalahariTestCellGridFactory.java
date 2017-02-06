@@ -1,13 +1,18 @@
 package simulation.grid.cell.factories;
 
+import simulation.clustering.Cluster;
+import simulation.grid.Position;
 import simulation.grid.cell.Cell;
 import simulation.grid.cell.NonVegetation;
 import simulation.grid.cell.Vegetation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class KalahariTestCellGridFactory extends CellGridFactory {
 
-    private int numberOfColumns = 5;
     private int numberOfRows = 6;
+    private int numberOfColumns = 5;
 
     public KalahariTestCellGridFactory(CellFactory cellFactory) {
         super(cellFactory);
@@ -23,10 +28,9 @@ public class KalahariTestCellGridFactory extends CellGridFactory {
 
     @Override
     public Cell[][] createNewCellGrid(int numberOfRows, int numberOfColumns) {
-        int trueNumberOfRows = 6;
-        int trueNumberOfColumns = 5;
 
-        Cell[][] cellGrid = new Cell[trueNumberOfRows][trueNumberOfColumns];
+        // should always create grid of fixed size
+        Cell[][] cellGrid = new Cell[this.numberOfRows][this.numberOfColumns];
 
         cellGrid[0][0] = new Vegetation();
         cellGrid[0][1] = new NonVegetation();
@@ -67,11 +71,51 @@ public class KalahariTestCellGridFactory extends CellGridFactory {
         return cellGrid;
     }
 
+    public List<Cluster> getClusters() {
+        List<Cluster> clusters = new ArrayList<>();
+
+        Cluster size1Cluster1 = new Cluster();
+        size1Cluster1.add(new Position(4,0));
+        clusters.add(size1Cluster1);
+
+        Cluster size1Cluster2 = new Cluster();
+        size1Cluster2.add(new Position(0,3));
+        clusters.add(size1Cluster2);
+
+        Cluster size2Cluster = new Cluster();
+        size2Cluster.add(new Position(0,0));
+        size2Cluster.add(new Position(0,1));
+        clusters.add(size2Cluster);
+
+        Cluster size14Cluster = new Cluster();
+        size14Cluster.add(new Position(2,1));
+        size14Cluster.add(new Position(1,2));
+        size14Cluster.add(new Position(2,2));
+        size14Cluster.add(new Position(3,2));
+        size14Cluster.add(new Position(4,2));
+        size14Cluster.add(new Position(3,3));
+        size14Cluster.add(new Position(1,4));
+        size14Cluster.add(new Position(2,4));
+        size14Cluster.add(new Position(3,4));
+        size14Cluster.add(new Position(0,5));
+        size14Cluster.add(new Position(1,5));
+        size14Cluster.add(new Position(2,5));
+        size14Cluster.add(new Position(3,5));
+        size14Cluster.add(new Position(4,5));
+        clusters.add(size14Cluster);
+
+        return clusters;
+    }
+
     public int getNumberOfColumns() {
         return numberOfColumns;
     }
 
     public int getNumberOfRows() {
         return numberOfRows;
+    }
+
+    public int getNumberOfCells() {
+        return numberOfColumns * numberOfRows;
     }
 }

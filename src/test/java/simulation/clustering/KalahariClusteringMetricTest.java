@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import simulation.grid.Grid;
 import simulation.grid.TestGridFactory;
+import simulation.grid.cell.factories.KalahariTestCellGridFactory;
+import simulation.grid.cell.factories.TestCellFactory;
 
 import java.util.List;
 
@@ -13,32 +15,28 @@ public class KalahariClusteringMetricTest {
 
     private Grid grid;
     private KalahariClusteringMetric kalahariClusteringMetric;
+    private KalahariTestCellGridFactory kalahariTestCellGridFactory;
 
     @Before
     public void setUp() throws Exception {
         grid = TestGridFactory.createTestGrid();
         kalahariClusteringMetric = new KalahariClusteringMetric(grid);
+
+        kalahariTestCellGridFactory = new KalahariTestCellGridFactory(new TestCellFactory());
     }
 
     @Test
     public void testGetClusters() throws Exception {
-        List<Cluster> clusters = kalahariClusteringMetric.getClusters();
+        List<Cluster> createdClusters = kalahariClusteringMetric.getClusters();
 
-        clusters.sort((a,b) -> Integer.compare(b.getNumberOfPositionsInCluster(), a.getNumberOfPositionsInCluster()));
+        List<Cluster> expectedClusters = kalahariTestCellGridFactory.getClusters();
 
-        assertEquals("[testGetClusters] Should have 4 clusters in the grid", 4, clusters.size());
+        assertEquals("[testGetClusters] Amount of clusters should be equal", expectedClusters.size(), createdClusters.size());
 
-        assertEquals("[testGetClusters] The biggest cluster should have 14 positions",
-                14, clusters.get(0).getNumberOfPositionsInCluster());
+        createdClusters.removeAll(expectedClusters);
 
-        assertEquals("[testGetClusters] The second biggest cluster should have 2 positions",
-                2, clusters.get(1).getNumberOfPositionsInCluster());
-
-        assertEquals("[testGetClusters] The 3rd biggest cluster should have 1 position",
-                1, clusters.get(2).getNumberOfPositionsInCluster());
-
-        assertEquals("[testGetClusters] The 4th biggest cluster should have 1 position",
-                1, clusters.get(3).getNumberOfPositionsInCluster());
+        assertEquals("[testGetClusters] If lists contain the same clusters, the negated union should be empty",
+                0, createdClusters.size());
     }
 
 }
