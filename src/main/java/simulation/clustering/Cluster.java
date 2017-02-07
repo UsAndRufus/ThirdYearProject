@@ -9,6 +9,19 @@ public class Cluster {
 
     private Set<Position> positions = new HashSet<>();
 
+    public Cluster() {
+
+    }
+
+    public Cluster(Position position) {
+        add(position);
+    }
+
+
+    public Cluster(Set<Position> positions) {
+        this.positions = positions;
+    }
+
     public boolean contains(Position position) {
        return positions.contains(position);
     }

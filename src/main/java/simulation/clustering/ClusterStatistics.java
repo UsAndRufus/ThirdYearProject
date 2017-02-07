@@ -23,12 +23,13 @@ public class ClusterStatistics {
 
         for (Cluster cluster : clusters) {
             int clusterSize = cluster.getNumberOfPositionsInCluster();
-            double probability = clusterSize / numberOfPositions;
+            double probability = (double) clusterSize / numberOfPositions;
 
             if (!probabilityMap.containsKey(clusterSize)) {
                 probabilityMap.put(clusterSize, probability);
             } else {
-                probabilityMap.put(clusterSize, probability * 2);
+                double currentProbability = probabilityMap.get(clusterSize);
+                probabilityMap.put(clusterSize, probability + currentProbability);
             }
         }
 

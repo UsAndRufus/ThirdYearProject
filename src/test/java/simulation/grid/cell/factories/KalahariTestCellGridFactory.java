@@ -7,7 +7,9 @@ import simulation.grid.cell.NonVegetation;
 import simulation.grid.cell.Vegetation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class KalahariTestCellGridFactory extends CellGridFactory {
 
@@ -107,6 +109,16 @@ public class KalahariTestCellGridFactory extends CellGridFactory {
         return clusters;
     }
 
+    public Map<Integer, Double> getProbabilities() {
+        Map<Integer, Double> probabilityMap = new HashMap<>();
+
+        probabilityMap.put(1, 2.0 / getNumberOfTrees());
+        probabilityMap.put(2, 2.0 / getNumberOfTrees());
+        probabilityMap.put(14, 14.0 / getNumberOfTrees());
+
+        return probabilityMap;
+    }
+
     public int getNumberOfColumns() {
         return numberOfColumns;
     }
@@ -117,5 +129,9 @@ public class KalahariTestCellGridFactory extends CellGridFactory {
 
     public int getNumberOfCells() {
         return numberOfColumns * numberOfRows;
+    }
+
+    public int getNumberOfTrees() {
+        return getClusters().stream().mapToInt(Cluster::getNumberOfPositionsInCluster).sum();
     }
 }

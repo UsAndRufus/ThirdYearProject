@@ -34,7 +34,6 @@ public class KalahariClusteringMetricTest {
         assertEquals("[testGetClusters] Amount of clusters should be equal", expectedClusters.size(), createdClusters.size());
 
         createdClusters.removeAll(expectedClusters);
-
         assertEquals("[testGetClusters] If lists contain the same clusters, the negated union should be empty",
                 0, createdClusters.size());
     }
