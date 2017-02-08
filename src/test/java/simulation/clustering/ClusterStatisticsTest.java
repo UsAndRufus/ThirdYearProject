@@ -53,7 +53,7 @@ public class ClusterStatisticsTest {
         double sumOfProbabilities = probabilityMap.values().stream().collect(summingDouble(d->d));
 
         assertEquals("[testGetProbabilitiesManySmallClusters] Sum of probabilities should be 1.0", 1.0,
-                sumOfProbabilities, 0.000001);
+                sumOfProbabilities, DOUBLE_PRECISION);
 
         assertProbabilityMapsAreEqual(expectedProbabilities, probabilityMap);
     }
