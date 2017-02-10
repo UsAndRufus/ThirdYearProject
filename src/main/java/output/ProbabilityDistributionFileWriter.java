@@ -13,20 +13,29 @@ import java.util.stream.Collectors;
 
 public class ProbabilityDistributionFileWriter {
 
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm");
+    private static final String ROOT_PATH = "data/";
+    private static final String FILE_ENDING = ".data";
 
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm");
+
+    // TODO: convert input here into tiny type?
     public void writeProbabilityDistributionMapToFile(Map<Integer, Double> probabilityDistribution,
-                                                      String distributionName) throws IOException {
+                                                      String distributionName, String integerColumnName,
+                                                      String doubleColumnName) throws IOException {
         Path path = Paths.get(createFilename(distributionName));
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+
+            writer.write(integerColumnName + "  " + doubleColumnName + System.lineSeparator());
+
             List<String> linesToWrite =
                     probabilityDistribution
                     .keySet()
                     .stream()
                     .sorted()
-                    .map(key -> "" + key + "    " + probabilityDistribution.get(key) + "\n")
+                    .map(key -> "" + key + "    " + probabilityDistribution.get(key) + System.lineSeparator())
                     .collect(Collectors.toList());
 
+            // Writing in loop here rather than in stream due to checked exceptions
             for (String line : linesToWrite) {
                 writer.write(line);
             }
@@ -35,7 +44,7 @@ public class ProbabilityDistributionFileWriter {
 
     private String createFilename(String distributionName) {
         LocalDateTime now = LocalDateTime.now();
-        return distributionName + "~" + now.format(dateTimeFormatter);
+        return ROOT_PATH + distributionName + "~" + now.format(dateTimeFormatter) + FILE_ENDING;
     }
 
 }

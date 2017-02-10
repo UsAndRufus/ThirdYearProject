@@ -43,7 +43,8 @@ public class Main extends Application {
 
         ProbabilityDistributionFileWriter probabilityDistributionFileWriter = new ProbabilityDistributionFileWriter();
         try {
-            probabilityDistributionFileWriter.writeProbabilityDistributionMapToFile(probabilityMap, "test");
+            probabilityDistributionFileWriter.writeProbabilityDistributionMapToFile(probabilityMap, "test",
+                    "Cluster size", "Probability");
         } catch (IOException e) {
             e.printStackTrace();
         }
