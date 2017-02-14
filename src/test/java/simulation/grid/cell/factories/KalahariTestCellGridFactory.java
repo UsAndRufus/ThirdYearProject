@@ -119,6 +119,16 @@ public class KalahariTestCellGridFactory extends CellGridFactory {
         return probabilityMap;
     }
 
+    public Map<Integer,Double> getCumulativeProbabilityDistribution() {
+        Map<Integer, Double> cumulativeProbabilityDistribution = new HashMap<>();
+
+        cumulativeProbabilityDistribution.put(1, 1.0);
+        cumulativeProbabilityDistribution.put(2, (2.0 + 14.0) / getNumberOfTrees());
+        cumulativeProbabilityDistribution.put(14, 14.0 / getNumberOfTrees());
+
+        return cumulativeProbabilityDistribution;
+    }
+
     public int getNumberOfColumns() {
         return numberOfColumns;
     }
@@ -134,4 +144,5 @@ public class KalahariTestCellGridFactory extends CellGridFactory {
     public int getNumberOfTrees() {
         return getClusters().stream().mapToInt(Cluster::getNumberOfPositionsInCluster).sum();
     }
+
 }
