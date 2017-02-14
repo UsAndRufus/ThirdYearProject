@@ -25,7 +25,7 @@ public class ProbabilityDistributionFileWriter {
         Path path = Paths.get(createFilename(distributionName));
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
 
-            writer.write(integerColumnName + "  " + doubleColumnName + System.lineSeparator());
+            writer.write("#" + integerColumnName + "  " + doubleColumnName + System.lineSeparator());
 
             List<String> linesToWrite =
                     probabilityDistribution
