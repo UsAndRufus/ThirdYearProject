@@ -56,23 +56,11 @@ public class Kalahari {
     }
 
     private void tick() {
-        List<Position> positions = grid.getRandomPositions(fractionOfCellsToUpdateEveryTick);
-
-        System.out.println("positions to transition this tick: " + positions.size());
-
-        int positionsLookedAt = 0;
         long timeOfLastPrint = System.currentTimeMillis();
+        List<Position> positions = grid.getRandomPositions(fractionOfCellsToUpdateEveryTick);
 
         for (Position position : positions) {
             grid.setCell(position, positionShouldTransitionTo(position));
-            positionsLookedAt += 1;
-
-            if ((positionsLookedAt % 1000) == 0) {
-                System.out.println("looked at so far:" + positionsLookedAt);
-                System.out.println("Time taken: " + (System.currentTimeMillis() - timeOfLastPrint));
-
-                timeOfLastPrint = System.currentTimeMillis();
-            }
         }
     }
 

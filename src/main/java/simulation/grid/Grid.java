@@ -52,9 +52,7 @@ public class Grid {
     public List<Position> getRandomPositions(double fractionOfPositionsToChoose) {
         int numberOfPositionsToChoose = (int) (numberOfRows * numberOfColumns * fractionOfPositionsToChoose);
 
-        // TODO: change to set for easier duplicate checking, and return list based off it
-        // might not be cheaper though if building HashSet is more expensive than iterating through list
-        List<Position> positions = new ArrayList<>(numberOfPositionsToChoose);
+        Set<Position> positions = new HashSet<>(numberOfPositionsToChoose);
 
         for (int currentCell = 0; currentCell < numberOfPositionsToChoose; currentCell++) {
             Position currentPosition = getRandomPosition();
@@ -65,7 +63,7 @@ public class Grid {
             positions.add(currentPosition);
         }
 
-        return positions;
+        return new ArrayList<>(positions);
     }
 
     private Position getRandomPosition() {
