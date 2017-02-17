@@ -1,6 +1,7 @@
 package simulation.grid;
 
 import simulation.grid.cell.Cell;
+import simulation.grid.cell.NonVegetation;
 import simulation.grid.cell.Vegetation;
 import simulation.grid.cell.factories.CellGridFactory;
 
@@ -12,6 +13,8 @@ public class Grid {
 
     private int numberOfRows;
     private int numberOfColumns;
+
+    private double fractionalVegetationCover = -1;
 
     public Grid(int numberOfRows, int numberOfColumns, CellGridFactory cellGridFactory) {
         this.cellGrid = cellGridFactory.createNewCellGrid(numberOfRows, numberOfColumns);
@@ -35,12 +38,22 @@ public class Grid {
             throw new IllegalArgumentException("Cannot set cell if position out of bounds");
         }
 
+        if ((getCell(position) instanceof NonVegetation)
+                && (cell instanceof Vegetation)) {
+            fractionalVegetationCover += (1 / (double) (numberOfRows * numberOfColumns));
+        } else if ((getCell(position) instanceof Vegetation)
+                && (cell instanceof NonVegetation)) {
+            fractionalVegetationCover -= (1 / (double) (numberOfRows * numberOfColumns));
+        }
+
         cellGrid[position.getY()][position.getX()] = cell;
     }
 
     public List<Position> getRandomPositions(double fractionOfPositionsToChoose) {
         int numberOfPositionsToChoose = (int) (numberOfRows * numberOfColumns * fractionOfPositionsToChoose);
 
+        // TODO: change to set for easier duplicate checking, and return list based off it
+        // might not be cheaper though if building HashSet is more expensive than iterating through list
         List<Position> positions = new ArrayList<>(numberOfPositionsToChoose);
 
         for (int currentCell = 0; currentCell < numberOfPositionsToChoose; currentCell++) {
@@ -65,19 +78,26 @@ public class Grid {
     }
 
     public double getFractionalVegetationCover() {
-        int numberOfVegetationCells = 0;
 
-        for(int x = 0; x < numberOfColumns; x++) {
-            for (int y =0; y < numberOfRows; y++) {
-                Position currentPosition = new Position(x,y);
-                Cell currentCell = getCell(currentPosition);
-                if (currentCell instanceof Vegetation) {
-                    numberOfVegetationCells++;
+        if (fractionalVegetationCover < 0) {
+            int numberOfVegetationCells = 0;
+
+            for(int x = 0; x < numberOfColumns; x++) {
+                for (int y =0; y < numberOfRows; y++) {
+                    Position currentPosition = new Position(x,y);
+                    Cell currentCell = getCell(currentPosition);
+                    if (currentCell instanceof Vegetation) {
+                        numberOfVegetationCells++;
+                    }
                 }
             }
+
+            fractionalVegetationCover = numberOfVegetationCells / (double) (numberOfRows * numberOfColumns);
         }
 
-        return numberOfVegetationCells / (double) (numberOfRows * numberOfColumns);
+
+
+        return fractionalVegetationCover;
     }
 
     public int getNumberOfRows() {

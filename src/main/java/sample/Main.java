@@ -22,7 +22,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //launch(args);
-        Kalahari kalahari = new Kalahari(100, 100, 0.25);
+        Kalahari kalahari = new Kalahari(500, 500, 0.25);
         kalahari.run();
     }
 }

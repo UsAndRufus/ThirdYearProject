@@ -1,6 +1,5 @@
 package simulation.grid;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -8,8 +7,6 @@ import simulation.grid.cell.Cell;
 import simulation.grid.cell.NonVegetation;
 import simulation.grid.cell.TestCell;
 import simulation.grid.cell.Vegetation;
-import simulation.grid.cell.factories.KalahariTestCellGridFactory;
-import simulation.grid.cell.factories.TestCellFactory;
 
 import java.util.List;
 
@@ -17,23 +14,18 @@ import static org.junit.Assert.*;
 
 public class GridTest {
 
-    private static final double DELTA = 1e-15;
+    private static final double DOUBLE_PRECISION = 0.00001d;
 
-    private Grid grid;
     private int xBound = 6;
     private int yBound = 5;
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
-
-    @Before
-    public void setUp() throws Exception {
-        grid = TestGridFactory.createTestGrid();
-    }
-
     @Test
     // TODO: make stronger tests by referencing actual objects rather than type. Probably have to override grid factory for this
     public void testGetCellInBounds() throws Exception {
+        Grid grid = TestGridFactory.createTestGrid();
+
         Position position = new Position(0, 0);
         assertTrue("[getCell] Cell at 0,0 should be a Vegetation cell",
                 grid.getCell(position) instanceof Vegetation);
@@ -49,6 +41,8 @@ public class GridTest {
 
     @Test
     public void testGetCellOutOfBounds() throws Exception {
+        Grid grid = TestGridFactory.createTestGrid();
+
         Position position = new Position(xBound,yBound);
         assertNull("[getCell] Cell at " + xBound + "," + yBound + " should be out of bounds", grid.getCell(position));
 
@@ -62,6 +56,8 @@ public class GridTest {
 
     @Test
     public void testSetCellInBounds() {
+        Grid grid = TestGridFactory.createTestGrid();
+
         Position position = new Position(0,0);
 
         assertFalse("[testSetCell] Check cell at 0,0 is not an instance of TestCell, otherwise test is meaningless",
@@ -77,6 +73,8 @@ public class GridTest {
 
     @Test
     public void testSetCellOutOfBounds() {
+        Grid grid = TestGridFactory.createTestGrid();
+
         Position position = new Position(xBound,yBound);
         Cell testCell = new TestCell();
 
@@ -85,7 +83,54 @@ public class GridTest {
     }
 
     @Test
+    public void testSetCellChangesFractionalVegetationCover() {
+
+        // veg -> veg
+        Grid grid = TestGridFactory.createTestGrid();
+        double expectedVegetationCover = grid.getFractionalVegetationCover();
+        Position positionToChange = new Position(0,0);
+        assertTrue("[testSetCellChangesFractionalVegetationCover] Test makes no sense if cell isn't vegetation",
+                grid.getCell(positionToChange) instanceof Vegetation);
+        grid.setCell(positionToChange, new Vegetation());
+        assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be the same as previously",
+                expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
+
+        // non-veg -> non-veg
+        grid = TestGridFactory.createTestGrid();
+        expectedVegetationCover = grid.getFractionalVegetationCover();
+        positionToChange = new Position(1,0);
+        assertTrue("[testSetCellChangesFractionalVegetationCover] Test makes no sense if cell isn't non-vegetation",
+                grid.getCell(positionToChange) instanceof NonVegetation);
+        grid.setCell(positionToChange, new NonVegetation());
+        assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be the same",
+                expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
+
+
+        // veg -> non-veg
+        grid = TestGridFactory.createTestGrid();
+        expectedVegetationCover = grid.getFractionalVegetationCover() - (1.0 / (double) (xBound * yBound));
+        positionToChange = new Position(0,0);
+        assertTrue("[testSetCellChangesFractionalVegetationCover] Test makes no sense if cell isn't vegetation",
+                grid.getCell(positionToChange) instanceof Vegetation);
+        grid.setCell(positionToChange, new NonVegetation());
+        assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be less than previously",
+                expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
+
+        // non-veg -> veg
+        grid = TestGridFactory.createTestGrid();
+        expectedVegetationCover = grid.getFractionalVegetationCover() + (1.0 / (double) (xBound * yBound));
+        positionToChange = new Position(1,0);
+        assertTrue("[testSetCellChangesFractionalVegetationCover] Test makes no sense if cell isn't non-vegetation",
+                grid.getCell(positionToChange) instanceof NonVegetation);
+        grid.setCell(positionToChange, new Vegetation());
+        assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be increased",
+                expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
+    }
+
+    @Test
     public void testGetRandomPositions() {
+        Grid grid = TestGridFactory.createTestGrid();
+
         double fractionToChoose = 0.1;
         int expectedNumberOfPositions = (int) (xBound * yBound * fractionToChoose);
 
@@ -105,9 +150,11 @@ public class GridTest {
 
     @Test
     public void testGetFractionalVegetationCover() {
+        Grid grid = TestGridFactory.createTestGrid();
+
         double expected = 18.0 / 30.0;
 
         assertEquals("[testGetFractionalVegetationCover] Actual value should be same as hand-calculated value",
-                expected, grid.getFractionalVegetationCover(), DELTA);
+                expected, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
     }
 }

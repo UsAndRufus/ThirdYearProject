@@ -39,6 +39,7 @@ public class Kalahari {
     public void run() {
         grid.printToConsole();
         for (int year = 0; year < 200; year++) {
+            System.out.println("Tick: " + year);
             tick();
         }
         grid.printToConsole();
@@ -57,8 +58,21 @@ public class Kalahari {
     private void tick() {
         List<Position> positions = grid.getRandomPositions(fractionOfCellsToUpdateEveryTick);
 
+        System.out.println("positions to transition this tick: " + positions.size());
+
+        int positionsLookedAt = 0;
+        long timeOfLastPrint = System.currentTimeMillis();
+
         for (Position position : positions) {
             grid.setCell(position, positionShouldTransitionTo(position));
+            positionsLookedAt += 1;
+
+            if ((positionsLookedAt % 1000) == 0) {
+                System.out.println("looked at so far:" + positionsLookedAt);
+                System.out.println("Time taken: " + (System.currentTimeMillis() - timeOfLastPrint));
+
+                timeOfLastPrint = System.currentTimeMillis();
+            }
         }
     }
 
