@@ -26,6 +26,7 @@ public class Kalahari {
 
     private double fractionOfCellsToUpdateEveryTick = 0.2;
     private double immediacyFactor = 3.0;
+    private double years = 200;
 
     public Kalahari(int numberOfRows, int numberOfColumns, double proportionVegetation) {
         CellFactory kalahariCellFactory = new KalahariCellFactory(proportionVegetation);
@@ -37,11 +38,20 @@ public class Kalahari {
     }
 
     public void run() {
-        grid.printToConsole();
-        for (int year = 0; year < 200; year++) {
-            tick();
+
+        System.out.println("Starting simulation");
+
+
+        for (int year = 0; year < years; year ++) {
+            System.out.print("X");
         }
-        grid.printToConsole();
+        System.out.println();
+
+        for (int year = 0; year < years; year++) {
+            tick();
+            System.out.print("X");
+        }
+        System.out.println();
 
         KalahariClusteringMetric kalahariClusteringMetric = new KalahariClusteringMetric(grid);
 

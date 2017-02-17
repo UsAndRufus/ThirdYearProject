@@ -36,7 +36,6 @@ public class ClusterStatistics {
         return probabilityMap;
     }
 
-    // TODO: does this work? tests pls x
     public Map<Integer, Double> getCumulativeProbabilityDistribution() {
         Map<Integer, Double> probabilityMap = getProbabilities();
 
