@@ -17,7 +17,6 @@ public class Cluster {
         add(position);
     }
 
-
     public Cluster(Set<Position> positions) {
         this.positions = positions;
     }

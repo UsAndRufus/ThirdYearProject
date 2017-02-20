@@ -5,8 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import output.ProbabilityDistributionFileWriter;
 import simulation.Kalahari;
 import simulation.KalahariParameters;
+import simulation.clustering.Cluster;
+import simulation.clustering.ClusterStatistics;
+import simulation.clustering.KalahariClusteringMetric;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,5 +36,21 @@ public class Main extends Application {
 
         Kalahari kalahari = new Kalahari(kalahariParameters);
         kalahari.run();
+
+        KalahariClusteringMetric kalahariClusteringMetric = new KalahariClusteringMetric(kalahari.getGrid());
+
+        List<Cluster> clusters = kalahariClusteringMetric.getClusters();
+
+        ClusterStatistics clusterStatistics = new ClusterStatistics(clusters);
+
+        Map<Integer, Double> probabilityMap = clusterStatistics.getCumulativeProbabilityDistribution();
+
+        ProbabilityDistributionFileWriter probabilityDistributionFileWriter = new ProbabilityDistributionFileWriter();
+        try {
+            probabilityDistributionFileWriter.writeProbabilityDistributionMapToFile(probabilityMap, "test",
+                    "Cluster size", "Probability");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -111,4 +111,8 @@ public class Kalahari {
         return (1.0 - vegetationDensity) + ((fractionalVegetationCover - fractionalVegetationCoverWithRainfall)
                                             / fractionalVegetationCover);
     }
+
+    public Grid getGrid() {
+        return grid;
+    }
 }
