@@ -22,19 +22,24 @@ public class Kalahari {
 
     private Grid grid;
     private KalahariDensity kalahariDensity;
+
     private double proportionVegetation;
+    private double fractionOfCellsToUpdateEveryTick;
+    private int years;
 
-    private double fractionOfCellsToUpdateEveryTick = 0.2;
-    private double immediacyFactor = 3.0;
-    private double years = 200;
+    public Kalahari(KalahariParameters parameters) {
 
-    public Kalahari(int numberOfRows, int numberOfColumns, double proportionVegetation) {
+        this.proportionVegetation = parameters.getProportionVegetation();
+        this.fractionOfCellsToUpdateEveryTick = parameters.getFractionOfCellsToUpdateEveryTick();
+        this.years = parameters.getYears();
+
         CellFactory kalahariCellFactory = new KalahariCellFactory(proportionVegetation);
         CellGridFactory cellGridFactory = new CellGridFactory(kalahariCellFactory);
-        this.grid = new Grid(numberOfRows, numberOfColumns, cellGridFactory);
+        this.grid = new Grid(parameters.getNumberOfRows(), parameters.getNumberOfColumns(),
+                cellGridFactory);
 
-        this.kalahariDensity = new KalahariDensity(immediacyFactor, 3, grid);
-        this.proportionVegetation = proportionVegetation;
+        this.kalahariDensity = new KalahariDensity(parameters.getImmediacyFactor(),
+                parameters.getDensityDistance(), grid);
     }
 
     public void run() {
@@ -52,14 +57,6 @@ public class Kalahari {
             System.out.print("X");
         }
         System.out.println();
-
-        KalahariClusteringMetric kalahariClusteringMetric = new KalahariClusteringMetric(grid);
-
-        List<Cluster> clusters = kalahariClusteringMetric.getClusters();
-
-        ClusterStatistics clusterStatistics = new ClusterStatistics(clusters);
-
-        clusterStatistics.print();
 
         System.out.println("done");
     }

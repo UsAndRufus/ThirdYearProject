@@ -18,13 +18,15 @@ public class KalahariDensity {
         this.immediacyFactor = immediacyFactor;
         this.maximumDistance = maximumDistance;
         this.grid = grid;
-    }
+}
 
     public double calculateFor(Position position) {
         Map<Integer, Integer> numberOfVegetationAtDistance
                 = getNumberOfCellsInRange(maximumDistance, position, Vegetation.class);
 
         // TODO: can probably just precompute this rather than expensive operation
+        // TODO: i.e. precompute for cells with no edge interactions, and compute for edge interactions
+        // TODO: can probably precompute for edge interactions and do checking, but easier and less faff to do it the simple way
         Map<Integer, Integer> numberOfCellsAtDistance
                 = getNumberOfCellsInRange(maximumDistance, position, Cell.class);
 
