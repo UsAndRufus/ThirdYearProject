@@ -74,6 +74,32 @@ public class KalahariDensityTest {
     }
 
     @Test
+    public void testGetGeneralNumberOfCellsAtDistance() {
+        kalahariDensity = new KalahariDensity(immediacyFactor, 5, grid);
+        Map<Integer,Integer> rangeMap = kalahariDensity.getGeneralNumberOfCellsAtDistance(0);
+
+        assertEquals("[testGetGeneralNumberOfCellsAtDistance] Length of map should be 0", 0, rangeMap.size());
+
+        rangeMap = kalahariDensity.getGeneralNumberOfCellsAtDistance(1);
+
+        assertEquals("[testGetGeneralNumberOfCellsAtDistance] Length of map should be 1", 1, rangeMap.size());
+        assertEquals("[testGetGeneralNumberOfCellsAtDistance] First element should be 4",
+                new Integer(4), rangeMap.get(1));
+
+        rangeMap = kalahariDensity.getGeneralNumberOfCellsAtDistance(4);
+
+        assertEquals("[testGetGeneralNumberOfCellsAtDistance] Length of map should be 4", 4, rangeMap.size());
+        assertEquals("[testGetGeneralNumberOfCellsAtDistance] First element should be 4",
+                new Integer(4), rangeMap.get(1));
+        assertEquals("[testGetGeneralNumberOfCellsAtDistance] Second element should be 8",
+                new Integer(8), rangeMap.get(2));
+        assertEquals("[testGetGeneralNumberOfCellsAtDistance] Third element should be 12",
+                new Integer(12), rangeMap.get(3));
+        assertEquals("[testGetGeneralNumberOfCellsAtDistance] Fourth element should be 16",
+                new Integer(16), rangeMap.get(4));
+    }
+
+    @Test
     public void testGetNumberOfCellsInRange0() {
         kalahariDensity = new KalahariDensity(immediacyFactor, 0, grid);
 

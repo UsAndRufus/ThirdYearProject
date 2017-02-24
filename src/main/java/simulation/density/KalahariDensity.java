@@ -14,21 +14,26 @@ public class KalahariDensity {
 
     private Grid grid;
 
+    private Map<Integer, Integer> generalNumberOfCellsAtDistance;
+
     public KalahariDensity(double immediacyFactor, int maximumDistance, Grid grid) {
         this.immediacyFactor = immediacyFactor;
         this.maximumDistance = maximumDistance;
         this.grid = grid;
-}
+
+        this.generalNumberOfCellsAtDistance = getGeneralNumberOfCellsAtDistance(maximumDistance);
+    }
 
     public double calculateFor(Position position) {
         Map<Integer, Integer> numberOfVegetationAtDistance
                 = getNumberOfCellsInRange(maximumDistance, position, Vegetation.class);
 
-        // TODO: can probably just precompute this rather than expensive operation
-        // TODO: i.e. precompute for cells with no edge interactions, and compute for edge interactions
-        // TODO: can probably precompute for edge interactions and do checking, but easier and less faff to do it the simple way
-        Map<Integer, Integer> numberOfCellsAtDistance
-                = getNumberOfCellsInRange(maximumDistance, position, Cell.class);
+        Map<Integer, Integer> numberOfCellsAtDistance;
+        if ((!grid.isRangeOutOfBounds(position, maximumDistance))) {
+            numberOfCellsAtDistance = this.generalNumberOfCellsAtDistance;
+        } else {
+            numberOfCellsAtDistance = getNumberOfCellsInRange(maximumDistance, position, Cell.class);
+        }
 
         double paretoSumForAll = 0.0;
         double paretoSumForVegetation = 0.0;
@@ -40,6 +45,22 @@ public class KalahariDensity {
         }
 
         return paretoSumForVegetation / paretoSumForAll;
+    }
+
+    // Visible for testing
+    protected Map<Integer, Integer> getGeneralNumberOfCellsAtDistance(int maximumDistance) {
+        Map<Integer, Integer> generalNumberOfCellsAtDistance = new HashMap<>(maximumDistance);
+
+        for (int currentDistance = 1; currentDistance <= maximumDistance; currentDistance++) {
+            // original equation from http://mathworld.wolfram.com/vonNeumannNeighborhood.html
+            // but we just want the current "layer"
+            // happens to be 4*d
+            int numberOfCells = 4 * currentDistance;
+
+            generalNumberOfCellsAtDistance.put(currentDistance, numberOfCells);
+        }
+
+        return generalNumberOfCellsAtDistance;
     }
 
     // Visible for testing

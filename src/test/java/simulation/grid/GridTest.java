@@ -27,15 +27,15 @@ public class GridTest {
         Grid grid = TestGridFactory.createTestGrid();
 
         Position position = new Position(0, 0);
-        assertTrue("[getCell] Cell at 0,0 should be a Vegetation cell",
+        assertTrue("[testGetCellInBounds] Cell at 0,0 should be a Vegetation cell",
                 grid.getCell(position) instanceof Vegetation);
 
         position = new Position(2, 3);
-        assertTrue("[getCell] Cell at 2,3 should be a NonVegetation cell",
+        assertTrue("[testGetCellInBounds] Cell at 2,3 should be a NonVegetation cell",
                 grid.getCell(position) instanceof NonVegetation);
 
         position = new Position(4, 5);
-        assertTrue("[getCell] Cell at 4,5 should be a NonVegetation cell",
+        assertTrue("[testGetCellInBounds] Cell at 4,5 should be a NonVegetation cell",
                 grid.getCell(position) instanceof Vegetation);
     }
 
@@ -44,14 +44,68 @@ public class GridTest {
         Grid grid = TestGridFactory.createTestGrid();
 
         Position position = new Position(xBound,yBound);
-        assertNull("[getCell] Cell at " + xBound + "," + yBound + " should be out of bounds", grid.getCell(position));
+        assertNull("[testGetCellOutOfBounds] Cell at " + xBound + "," + yBound + " should be out of bounds",
+                grid.getCell(position));
 
         assert(3 < xBound);
         position = new Position(3,yBound+1);
-        assertNull("[getCell] Cell at 3," + yBound+1 + " should be out of bounds", grid.getCell(position));
+        assertNull("[testGetCellOutOfBounds] Cell at 3," + yBound+1 + " should be out of bounds",
+                grid.getCell(position));
 
         position = new Position(-1,-1);
-        assertNull("[getCell] Cell at -1,-1 should be out of bounds", grid.getCell(position));
+        assertNull("[testGetCellOutOfBounds] Cell at -1,-1 should be out of bounds", grid.getCell(position));
+    }
+
+    @Test
+    public void testIsPositionOutOfBounds() {
+        Grid grid = TestGridFactory.createTestGrid();
+
+        Position position = new Position(xBound,yBound);
+        assertTrue("[testIsPositionOutOfBounds] Cell at " + xBound + "," + yBound + " should be out of bounds",
+                grid.isPositionOutOfBounds(position));
+
+        position = new Position(1,1);
+        assert(1 < xBound);
+        assert(1 < yBound);
+        assertFalse("[testIsPositionOutOfBounds] Cell at 1,1 should be in bounds",
+                grid.isPositionOutOfBounds(position));
+    }
+
+    @Test
+    public void testIsRangeOutOfBounds() {
+        Grid grid = TestGridFactory.createTestGrid();
+
+        Position position = new Position(-10,-10);
+        int range = 4;
+        assertTrue("[testIsRangeOutOfBounds] Starting point is outside range", grid.isRangeOutOfBounds(position, range));
+
+        position = new Position(0,0);
+        range = 1;
+        assertTrue("[testIsRangeOutOfBounds] Range crosses boundary", grid.isRangeOutOfBounds(position, range));
+        position = new Position(1,1);
+        range = 1;
+        assertFalse("[testIsRangeOutOfBounds] Range inside bounds", grid.isRangeOutOfBounds(position, range));
+
+        assert(2 < yBound);
+        position = new Position(0,2);
+        range = 2;
+        assertTrue("[testIsRangeOutOfBounds] Range crosses boundary", grid.isRangeOutOfBounds(position, range));
+
+        assert(1 < yBound);
+        position = new Position(xBound - 1,1);
+        range = 1;
+        assertTrue("[testIsRangeOutOfBounds] Range crosses boundary", grid.isRangeOutOfBounds(position, range));
+
+        assert(3 < xBound);
+        position = new Position(3,0);
+        range = 4;
+        assertTrue("[testIsRangeOutOfBounds] Range crosses boundary", grid.isRangeOutOfBounds(position, range));
+
+        assert(4 < xBound);
+        position = new Position(4,yBound - 1);
+        range = 1;
+        assertTrue("[testIsRangeOutOfBounds] Range crosses boundary", grid.isRangeOutOfBounds(position, range));
+
     }
 
     @Test

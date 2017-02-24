@@ -35,7 +35,10 @@ public class Main extends Application {
         KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 200, 0.3, 10);
 
         Kalahari kalahari = new Kalahari(kalahariParameters);
+
+        long start = System.currentTimeMillis();
         kalahari.run();
+        System.out.println("Run took " + (System.currentTimeMillis() - start) + "ms");
 
         KalahariClusteringMetric kalahariClusteringMetric = new KalahariClusteringMetric(kalahari.getGrid());
 

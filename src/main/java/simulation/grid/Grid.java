@@ -33,6 +33,17 @@ public class Grid {
         return cellGrid[position.getY()][position.getX()];
     }
 
+    public boolean isPositionOutOfBounds(Position position) {
+        return getCell(position) == null;
+    }
+
+    public boolean isRangeOutOfBounds(Position centre, int range) {
+        return  isPositionOutOfBounds(new Position(centre.getX() - range, centre.getY())) ||
+                isPositionOutOfBounds(new Position(centre.getX() + range, centre.getY())) ||
+                isPositionOutOfBounds(new Position(centre.getX(), centre.getY() - range)) ||
+                isPositionOutOfBounds(new Position(centre.getX(), centre.getY() + range));
+    }
+
     public void setCell(Position position, Cell cell) {
         if (getCell(position) == null) {
             throw new IllegalArgumentException("Cannot set cell if position out of bounds");
