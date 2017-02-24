@@ -57,3 +57,4 @@ hs_err_pid*
 # Output files
 *.png
 *.ps
+*.log

@@ -3,7 +3,6 @@ package simulation;
 public class KalahariParameters {
 
     private int numberOfRows, numberOfColumns;
-
     private double proportionVegetation;
     private double fractionOfCellsToUpdateEveryTick;
     private int years;

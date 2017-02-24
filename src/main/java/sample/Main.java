@@ -1,11 +1,9 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import output.ProbabilityDistributionFileWriter;
+import output.ProbabilityDistribution;
+import output.SimulationRunFileWriter;
 import simulation.Kalahari;
 import simulation.KalahariParameters;
 import simulation.clustering.Cluster;
@@ -45,10 +43,11 @@ public class Main extends Application {
 
         Map<Integer, Double> probabilityMap = clusterStatistics.getCumulativeProbabilityDistribution();
 
-        ProbabilityDistributionFileWriter probabilityDistributionFileWriter = new ProbabilityDistributionFileWriter();
+        SimulationRunFileWriter simulationRunFileWriter = new SimulationRunFileWriter();
         try {
-            probabilityDistributionFileWriter.writeProbabilityDistributionMapToFile(probabilityMap, "test",
-                    "Cluster size", "Probability");
+            simulationRunFileWriter.writeSimulationRunToFile(
+                    new ProbabilityDistribution(probabilityMap, "test", "Cluster size", "Probability"),
+                    kalahariParameters);
         } catch (IOException e) {
             e.printStackTrace();
         }
