@@ -14,11 +14,15 @@ public class KalahariDensity {
 
     private Grid grid;
 
+    public KalahariDensity(DensityParameters densityParameters, Grid grid) {
+        this(densityParameters.getImmediacyFactor(), densityParameters.getMaximumDistance(), grid);
+    }
+
     public KalahariDensity(double immediacyFactor, int maximumDistance, Grid grid) {
         this.immediacyFactor = immediacyFactor;
         this.maximumDistance = maximumDistance;
         this.grid = grid;
-}
+    }
 
     public double calculateFor(Position position) {
         Map<Integer, Integer> numberOfVegetationAtDistance

@@ -38,8 +38,7 @@ public class Kalahari {
         this.grid = new Grid(parameters.getNumberOfRows(), parameters.getNumberOfColumns(),
                 cellGridFactory);
 
-        this.kalahariDensity = new KalahariDensity(parameters.getImmediacyFactor(),
-                parameters.getDensityDistance(), grid);
+        this.kalahariDensity = new KalahariDensity(parameters.getDensityParameters(), grid);
     }
 
     public void run() {

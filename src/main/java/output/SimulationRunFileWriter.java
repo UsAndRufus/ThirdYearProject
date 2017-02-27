@@ -32,8 +32,9 @@ public class SimulationRunFileWriter {
             writer.write("# Fraction of cells to update every tick: "
                     + kalahariParameters.getFractionOfCellsToUpdateEveryTick()
                     + "; years: " + kalahariParameters.getYears() + System.lineSeparator());
-            writer.write("# Immediacy factor: " + kalahariParameters.getImmediacyFactor()
-                    + "; density distance: " + kalahariParameters.getDensityDistance() + System.lineSeparator());
+            writer.write("# Immediacy factor: " + kalahariParameters.getDensityParameters().getImmediacyFactor()
+                    + "; density distance: " + kalahariParameters.getDensityParameters().getMaximumDistance()
+                    + System.lineSeparator());
 
             writer.write("# " + probabilityDistribution.getIntegerColumnName() + "    " +
                     probabilityDistribution.getDoubleColumnName() + System.lineSeparator());

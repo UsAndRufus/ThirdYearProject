@@ -9,6 +9,7 @@ import simulation.KalahariParameters;
 import simulation.clustering.Cluster;
 import simulation.clustering.ClusterStatistics;
 import simulation.clustering.KalahariClusteringMetric;
+import simulation.density.DensityParameters;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +31,9 @@ public class Main extends Application {
     public static void main(String[] args) {
         //launch(args);
 
-        KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 200, 0.3, 10);
+        DensityParameters densityParameters = new DensityParameters(3.0,5);
+
+        KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 200, densityParameters);
 
         Kalahari kalahari = new Kalahari(kalahariParameters);
         kalahari.run();
