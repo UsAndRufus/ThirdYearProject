@@ -54,6 +54,8 @@ hs_err_pid*
 # Project files
 *.data
 
+gnuplot/created
+
 # Output files
 *.png
 *.ps
