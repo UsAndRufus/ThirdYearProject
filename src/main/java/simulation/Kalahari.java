@@ -37,23 +37,32 @@ public class Kalahari {
         this.kalahariDensity = new KalahariDensity(parameters.getDensityParameters(), grid);
     }
 
-    public void run() {
+    public void run(boolean print) {
 
-        System.out.println("Starting simulation");
-
-
-        for (int year = 0; year < years; year ++) {
-            System.out.print("X");
+        if (print) {
+            System.out.println("Starting simulation");
         }
-        System.out.println();
+
+        if (print) {
+            for (int year = 0; year < years; year ++) {
+                System.out.print("X");
+            }
+            System.out.println();
+        }
 
         for (int year = 0; year < years; year++) {
             tick();
-            System.out.print("X");
-        }
-        System.out.println();
+            if (print) {
+                System.out.print("X");
+            }
 
-        System.out.println("done");
+        }
+        if (print) {
+            System.out.println();
+
+            System.out.println("done");
+        }
+
     }
 
     private void tick() {

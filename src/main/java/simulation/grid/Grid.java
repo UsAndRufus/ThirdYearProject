@@ -125,11 +125,11 @@ public class Grid {
         for (int currentRow = 0; currentRow < numberOfRows; currentRow++) {
             for (int currentColumn = 0; currentColumn < numberOfColumns; currentColumn++) {
                 if (cellGrid[currentRow][currentColumn] instanceof Vegetation) {
-                    System.out.print("[~]");
+                    System.out.print("X");
                     numberOfVegetationCells++;
                     totalNumberOfCells++;
                 } else {
-                    System.out.print("[ ]");
+                    System.out.print("o");
                     totalNumberOfCells++;
                 }
             }

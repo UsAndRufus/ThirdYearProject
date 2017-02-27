@@ -31,14 +31,14 @@ public class Main extends Application {
     public static void main(String[] args) {
         //launch(args);
 
-        DensityParameters densityParameters = new DensityParameters(3.0,5);
+        DensityParameters densityParameters = new DensityParameters(3.0,4);
 
         KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 200, densityParameters);
 
         Kalahari kalahari = new Kalahari(kalahariParameters);
 
         long start = System.currentTimeMillis();
-        kalahari.run();
+        kalahari.run(false);
         System.out.println("Run took " + (System.currentTimeMillis() - start) + "ms");
 
         KalahariClusteringMetric kalahariClusteringMetric = new KalahariClusteringMetric(kalahari.getGrid());
@@ -57,5 +57,7 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //kalahari.getGrid().printToConsole();
     }
 }
