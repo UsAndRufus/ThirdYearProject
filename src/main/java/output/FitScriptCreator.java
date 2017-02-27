@@ -18,17 +18,20 @@ public class FitScriptCreator {
 
     public static void main(String[] args) throws IOException {
         System.out.println("Run from outside ThirdYearProject");
-        if (!(args[0].startsWith("ThirdYearProject/"))) {
-            System.out.println("Filepath argument must start with ThirdYearProject/");
-            throw new IllegalArgumentException();
-        }
         String dataFilePathString = args[0];
 
-        createFor(Paths.get(dataFilePathString));
+        createFor(dataFilePathString);
 
     }
 
-    public static void createFor(Path dataFilePath) throws IOException {
+    public static void createFor(String dataFilePathString) throws IOException {
+        if (!(dataFilePathString.startsWith("ThirdYearProject/"))) {
+            System.out.println("Filepath argument must start with ThirdYearProject/");
+            throw new IllegalArgumentException();
+        }
+
+        Path dataFilePath = Paths.get(dataFilePathString);
+
         String filename = dataFilePath.getFileName().toString();
         filename = "fit_" + filename.substring(0, filename.length() - FILE_TYPE.length());
         Path createdFitScript = Paths.get(CREATED_DIRECTORY_PATH_STRING + filename);
