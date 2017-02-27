@@ -1,16 +1,15 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import output.ProbabilityDistributionFileWriter;
+import output.ProbabilityDistribution;
+import output.SimulationRunFileWriter;
 import simulation.Kalahari;
 import simulation.KalahariParameters;
 import simulation.clustering.Cluster;
 import simulation.clustering.ClusterStatistics;
 import simulation.clustering.KalahariClusteringMetric;
+import simulation.density.DensityParameters;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,7 +31,9 @@ public class Main extends Application {
     public static void main(String[] args) {
         //launch(args);
 
-        KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 200, 0.3, 10);
+        DensityParameters densityParameters = new DensityParameters(3.0,5);
+
+        KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 200, densityParameters);
 
         Kalahari kalahari = new Kalahari(kalahariParameters);
 
@@ -48,10 +49,11 @@ public class Main extends Application {
 
         Map<Integer, Double> probabilityMap = clusterStatistics.getCumulativeProbabilityDistribution();
 
-        ProbabilityDistributionFileWriter probabilityDistributionFileWriter = new ProbabilityDistributionFileWriter();
+        SimulationRunFileWriter simulationRunFileWriter = new SimulationRunFileWriter();
         try {
-            probabilityDistributionFileWriter.writeProbabilityDistributionMapToFile(probabilityMap, "test",
-                    "Cluster size", "Probability");
+            simulationRunFileWriter.writeSimulationRunToFile(
+                    new ProbabilityDistribution(probabilityMap, "test", "Cluster size", "Probability"),
+                    kalahariParameters);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -11,16 +11,18 @@ import java.util.Map;
 public class KalahariDensity {
     private double immediacyFactor;
     private int maximumDistance;
-
     private Grid grid;
-
+    
     private Map<Integer, Integer> generalNumberOfCellsAtDistance;
+
+    public KalahariDensity(DensityParameters densityParameters, Grid grid) {
+        this(densityParameters.getImmediacyFactor(), densityParameters.getMaximumDistance(), grid);
+    }
 
     public KalahariDensity(double immediacyFactor, int maximumDistance, Grid grid) {
         this.immediacyFactor = immediacyFactor;
         this.maximumDistance = maximumDistance;
         this.grid = grid;
-
         this.generalNumberOfCellsAtDistance = getGeneralNumberOfCellsAtDistance(maximumDistance);
     }
 

@@ -1,27 +1,24 @@
 package simulation;
 
+import simulation.density.DensityParameters;
+
 public class KalahariParameters {
 
     private int numberOfRows, numberOfColumns;
-
     private double proportionVegetation;
     private double fractionOfCellsToUpdateEveryTick;
     private int years;
-    private double immediacyFactor; // immediacy factor is also known as k
-    private int densityDistance;
+    private DensityParameters densityParameters;
 
     public KalahariParameters(int numberOfRows, int numberOfColumns, double proportionVegetation,
-                              double fractionOfCellsToUpdateEveryTick, int years, double immediacyFactor,
-                              int densityDistance) {
+                              double fractionOfCellsToUpdateEveryTick, int years, DensityParameters densityParameters) {
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
         this.proportionVegetation = proportionVegetation;
         this.fractionOfCellsToUpdateEveryTick = fractionOfCellsToUpdateEveryTick;
         this.years = years;
 
-        // TODO: maybe change these two into DensityParameters tinytype?
-        this.immediacyFactor = immediacyFactor;
-        this.densityDistance = densityDistance;
+        this.densityParameters = densityParameters;
     }
 
     public int getNumberOfRows() {
@@ -44,11 +41,7 @@ public class KalahariParameters {
         return years;
     }
 
-    public double getImmediacyFactor() {
-        return immediacyFactor;
-    }
-
-    public int getDensityDistance() { return densityDistance; }
+    public DensityParameters getDensityParameters() { return densityParameters; }
 
 
 }

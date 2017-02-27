@@ -53,3 +53,8 @@ hs_err_pid*
 
 # Project files
 *.data
+
+# Output files
+*.png
+*.ps
+*.log
