@@ -55,6 +55,7 @@ hs_err_pid*
 *.data
 
 gnuplot/created
+fit_manual.plt
 
 # Output files
 *.png

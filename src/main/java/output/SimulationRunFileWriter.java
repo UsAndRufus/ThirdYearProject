@@ -24,17 +24,14 @@ public class SimulationRunFileWriter {
         Path path = Paths.get(createFilename(probabilityDistribution.getName()));
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
 
-            writer.write("# Distribution name: " + probabilityDistribution.getName());
-            writer.write("# Number of rows: " + kalahariParameters.getNumberOfRows() + ", number of columns: "
-                    + kalahariParameters.getNumberOfColumns() + System.lineSeparator());
-            writer.write("# Proportion vegetation: " + kalahariParameters.getProportionVegetation()
-                    + System.lineSeparator());
-            writer.write("# Fraction of cells to update every tick: "
-                    + kalahariParameters.getFractionOfCellsToUpdateEveryTick()
-                    + "; years: " + kalahariParameters.getYears() + System.lineSeparator());
-            writer.write("# Immediacy factor: " + kalahariParameters.getDensityParameters().getImmediacyFactor()
-                    + "; density distance: " + kalahariParameters.getDensityParameters().getMaximumDistance()
-                    + System.lineSeparator());
+            writer.write("#" + probabilityDistribution.getName() + System.lineSeparator());
+            writer.write("#" + kalahariParameters.getNumberOfRows() + System.lineSeparator());
+            writer.write("#" + kalahariParameters.getNumberOfColumns() + System.lineSeparator());
+            writer.write("#" + kalahariParameters.getProportionVegetation() + System.lineSeparator());
+            writer.write("#" + kalahariParameters.getFractionOfCellsToUpdateEveryTick() + System.lineSeparator());
+            writer.write("#" + kalahariParameters.getYears() + System.lineSeparator());
+            writer.write("# " + kalahariParameters.getDensityParameters().getImmediacyFactor() +System.lineSeparator());
+            writer.write("# " + kalahariParameters.getDensityParameters().getMaximumDistance() +System.lineSeparator());
 
             writer.write("# " + probabilityDistribution.getIntegerColumnName() + "    " +
                     probabilityDistribution.getDoubleColumnName() + System.lineSeparator());

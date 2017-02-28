@@ -46,9 +46,7 @@ public class FitScriptCreator {
         String content = new String(Files.readAllBytes(fitScript), charset);
         String relativeFilePath = fitScript.getParent().relativize(dataFilePath).toString();
         relativeFilePath = relativeFilePath.replace("\\", "/");
-        System.out.println(relativeFilePath);
         content = content.replaceAll(REPLACE_STRING, relativeFilePath);
-        System.out.println(content);
         Files.write(fitScript, content.getBytes(charset));
     }
 }
