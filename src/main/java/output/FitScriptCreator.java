@@ -11,7 +11,9 @@ import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class FitScriptCreator {
-    private static final String REPLACE_STRING = "REPLACE";
+    private static final String REPLACE_PATH_STRING = "PATH";
+    private static final String REPLACE_NAME_STRING = "NAME";
+
     private static final String FILE_TYPE = ".data";
     private static final Path FIT_SCRIPT_PATH = Paths.get("ThirdYearProject/gnuplot/fit.plt");
     private static final String CREATED_DIRECTORY_PATH_STRING = "ThirdYearProject/gnuplot/created/";
@@ -46,7 +48,8 @@ public class FitScriptCreator {
         String content = new String(Files.readAllBytes(fitScript), charset);
         String relativeFilePath = fitScript.getParent().relativize(dataFilePath).toString();
         relativeFilePath = relativeFilePath.replace("\\", "/");
-        content = content.replaceAll(REPLACE_STRING, relativeFilePath);
+        content = content.replaceAll(REPLACE_PATH_STRING, relativeFilePath);
+        content = content.replaceAll(REPLACE_NAME_STRING, dataFilePath.getFileName().toString());
         Files.write(fitScript, content.getBytes(charset));
     }
 }
