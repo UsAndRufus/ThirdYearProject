@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import output.ProbabilityDistribution;
 import output.SimulationRunFileWriter;
+import output.image.GridImageCreator;
 import simulation.Kalahari;
 import simulation.KalahariParameters;
 import simulation.clustering.Cluster;
@@ -31,14 +32,14 @@ public class Main extends Application {
     public static void main(String[] args) {
         //launch(args);
 
-        DensityParameters densityParameters = new DensityParameters(3.0,4);
+        DensityParameters densityParameters = new DensityParameters(3.0,10);
 
         KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 200, densityParameters);
 
         Kalahari kalahari = new Kalahari(kalahariParameters);
 
         long start = System.currentTimeMillis();
-        kalahari.run(false);
+        kalahari.run(true);
         System.out.println("Run took " + (System.currentTimeMillis() - start) + "ms");
 
         KalahariClusteringMetric kalahariClusteringMetric = new KalahariClusteringMetric(kalahari.getGrid());
@@ -57,6 +58,9 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        GridImageCreator gridImageCreator = new GridImageCreator();
+        gridImageCreator.createImage(kalahari.getGrid(), "test");
 
         //kalahari.getGrid().printToConsole();
     }
