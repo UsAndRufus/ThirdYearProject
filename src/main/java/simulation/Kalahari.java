@@ -10,7 +10,9 @@ import simulation.grid.cell.factories.CellFactory;
 import simulation.grid.cell.factories.CellGridFactory;
 import simulation.grid.cell.factories.KalahariCellFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 // TODO: this class needs tests
@@ -68,8 +70,14 @@ public class Kalahari {
     private void tick() {
         List<Position> positions = grid.getRandomPositions(fractionOfCellsToUpdateEveryTick);
 
+        Map<Position, Cell> transitions = new HashMap<>(positions.size());
+
         for (Position position : positions) {
-            grid.setCell(position, positionShouldTransitionTo(position));
+            transitions.put(position, positionShouldTransitionTo(position));
+        }
+
+        for (Position position : transitions.keySet()) {
+            grid.setCell(position, transitions.get(position));
         }
     }
 
@@ -103,20 +111,42 @@ public class Kalahari {
                                                                           double fractionalVegetationCover,
                                                                           double fractionalVegetationCoverWithRainfall) {
 
-        // TODO: debug to test how often transition probability falls outside of 0-1 range
+        double probability = vegetationDensity + ((fractionalVegetationCoverWithRainfall - fractionalVegetationCover)
+                / (1.0 - fractionalVegetationCover));
 
-        return vegetationDensity + ((fractionalVegetationCoverWithRainfall - fractionalVegetationCover)
-                                    / (1.0 - fractionalVegetationCover));
+        if (probability > 1.0) {
+            probability = 1.0;
+        } else if (probability < 0.0) {
+            probability = 0.0;
+        }
+
+
+        return probability;
     }
 
     protected double calculateVegetationToNonVegetationTransitionProbability(double vegetationDensity,
                                                                              double fractionalVegetationCover,
                                                                              double fractionalVegetationCoverWithRainfall) {
-        return (1.0 - vegetationDensity) + ((fractionalVegetationCover - fractionalVegetationCoverWithRainfall)
-                                            / fractionalVegetationCover);
+
+        double probability = (1.0 - vegetationDensity) + ((fractionalVegetationCover - fractionalVegetationCoverWithRainfall)
+                / fractionalVegetationCover);
+
+        if (probability > 1.0) {
+            probability = 1.0;
+        } else if (probability < 0.0) {
+            probability = 0.0;
+        }
+
+        return probability;
     }
 
     public Grid getGrid() {
         return grid;
+    }
+
+    // Visible for testing
+    // Can't be bothered making a Kalahari factory so this is a dirty way to test the class
+    protected void setGrid(Grid grid) {
+        this.grid = grid;
     }
 }

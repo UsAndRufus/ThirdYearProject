@@ -145,4 +145,8 @@ public class KalahariTestCellGridFactory extends CellGridFactory {
         return getClusters().stream().mapToInt(Cluster::getNumberOfPositionsInCluster).sum();
     }
 
+    public double getProportionVegetation() {
+        return (getNumberOfTrees() * 1.0) / (getNumberOfCells() * 1.0);
+    }
+
 }
