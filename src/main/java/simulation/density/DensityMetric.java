@@ -8,46 +8,25 @@ import simulation.grid.cell.Vegetation;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KalahariDensity {
-    private double immediacyFactor;
-    private int maximumDistance;
-    private Grid grid;
+public abstract class DensityMetric {
+    protected double immediacyFactor;
+    protected int maximumDistance;
+    protected Grid grid;
     
-    private Map<Integer, Integer> generalNumberOfCellsAtDistance;
+    protected Map<Integer, Integer> generalNumberOfCellsAtDistance;
 
-    public KalahariDensity(DensityParameters densityParameters, Grid grid) {
+    public DensityMetric(DensityParameters densityParameters, Grid grid) {
         this(densityParameters.getImmediacyFactor(), densityParameters.getMaximumDistance(), grid);
     }
 
-    public KalahariDensity(double immediacyFactor, int maximumDistance, Grid grid) {
+    public DensityMetric(double immediacyFactor, int maximumDistance, Grid grid) {
         this.immediacyFactor = immediacyFactor;
         this.maximumDistance = maximumDistance;
         this.grid = grid;
         this.generalNumberOfCellsAtDistance = getGeneralNumberOfCellsAtDistance(maximumDistance);
     }
 
-    public double calculateFor(Position position) {
-        Map<Integer, Integer> numberOfVegetationAtDistance
-                = getNumberOfCellsInRange(maximumDistance, position, Vegetation.class);
-
-        Map<Integer, Integer> numberOfCellsAtDistance;
-        if ((!grid.isRangeOutOfBounds(position, maximumDistance))) {
-            numberOfCellsAtDistance = this.generalNumberOfCellsAtDistance;
-        } else {
-            numberOfCellsAtDistance = getNumberOfCellsInRange(maximumDistance, position, Cell.class);
-        }
-
-        double paretoSumForAll = 0.0;
-        double paretoSumForVegetation = 0.0;
-
-        for (int distance = 1; distance <= maximumDistance; distance++) {
-            double paretoForDistance = pareto(distance, immediacyFactor);
-            paretoSumForAll += paretoForDistance * numberOfCellsAtDistance.get(distance);
-            paretoSumForVegetation += paretoForDistance * numberOfVegetationAtDistance.get(distance);
-        }
-
-        return paretoSumForVegetation / paretoSumForAll;
-    }
+    public abstract double calculateFor(Position position);
 
     // Visible for testing
     protected Map<Integer, Integer> getGeneralNumberOfCellsAtDistance(int maximumDistance) {
@@ -102,10 +81,7 @@ public class KalahariDensity {
 
         return numberOfCellsAtDistance;
     }
-    // Visible for testing
-    protected double pareto(int distance, double immediacyFactor) {
-        return Math.pow(1.0 / (double) distance, immediacyFactor);
-    }
+
 
     public double getImmediacyFactor() {
         return immediacyFactor;

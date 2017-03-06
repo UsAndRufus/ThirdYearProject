@@ -1,6 +1,7 @@
 package simulation;
 
-import simulation.density.KalahariDensity;
+import simulation.density.DensityMetric;
+import simulation.density.ParetoDensity;
 import simulation.grid.Grid;
 import simulation.grid.Position;
 import simulation.grid.cell.Cell;
@@ -19,7 +20,7 @@ import java.util.Random;
 public class Kalahari {
 
     private Grid grid;
-    private KalahariDensity kalahariDensity;
+    private DensityMetric densityMetric;
 
     private double proportionVegetation;
     private double fractionOfCellsToUpdateEveryTick;
@@ -36,7 +37,7 @@ public class Kalahari {
         this.grid = new Grid(parameters.getNumberOfRows(), parameters.getNumberOfColumns(),
                 cellGridFactory);
 
-        this.kalahariDensity = new KalahariDensity(parameters.getDensityParameters(), grid);
+        this.densityMetric = new ParetoDensity(parameters.getDensityParameters(), grid);
     }
 
     public void run(boolean print) {
@@ -85,7 +86,7 @@ public class Kalahari {
     protected Cell positionShouldTransitionTo(Position position) {
         Random random = new Random();
 
-        double vegetationDensityAtPosition = kalahariDensity.calculateFor(position);
+        double vegetationDensityAtPosition = densityMetric.calculateFor(position);
         double fractionalVegetationCover = grid.getFractionalVegetationCover();
 
         if (grid.getCell(position) instanceof Vegetation) {
