@@ -105,11 +105,11 @@ public class DensityMetricTest {
         densityMetric = new DensityMetricTester(immediacyFactor, 1, grid);
 
         Map<Integer,Integer> rangeMap = densityMetric.getNumberOfCellsInRange(1, new Position(0,0), Cell.class);
-        assertEquals("[testGetNumberOfCellsInRange1] Number of cells should be 2",
+        assertEquals("[testGetNumberOfCellsInRange1ForTypeCell] Number of cells should be 2",
                 new Integer(2), rangeMap.get(1));
 
         rangeMap = densityMetric.getNumberOfCellsInRange(1, new Position(2,2), Cell.class);
-        assertEquals("[testGetNumberOfCellsInRange1] Number of cells should be 4",
+        assertEquals("[testGetNumberOfCellsInRange1ForTypeCell] Number of cells should be 4",
                 new Integer(4), rangeMap.get(1));
     }
 
@@ -143,12 +143,75 @@ public class DensityMetricTest {
 
     @Test
     public void testGetNumberOfCellsInRange2ForTypeCell() {
-        densityMetric = new DensityMetricTester(immediacyFactor, 1, grid);
+        densityMetric = new DensityMetricTester(immediacyFactor, 2, grid);
 
         Map<Integer,Integer> rangeMap = densityMetric.getNumberOfCellsInRange(2, new Position(2,2), Cell.class);
-        assertEquals("[testGetNumberOfCellsInRange1] Number of cells should be 8",
+        assertEquals("[testGetNumberOfCellsInRange2ForTypeCell] Number of cells should be 8",
                 new Integer(8), rangeMap.get(2));
-        assertEquals("[testGetNumberOfCellsInRange1] Number of cells should be 4",
+        assertEquals("[testGetNumberOfCellsInRange2ForTypeCell] Number of cells should be 4",
                 new Integer(4), rangeMap.get(1));
+
+        rangeMap = densityMetric.getNumberOfCellsInRange(2, new Position(4,5), Cell.class);
+        assertEquals("[testGetNumberOfCellsInRange2ForTypeCell] Number of cells should be 3",
+                new Integer(3), rangeMap.get(2));
+        assertEquals("[testGetNumberOfCellsInRange2ForTypeCell] Number of cells should be 2",
+                new Integer(2), rangeMap.get(1));
+    }
+
+    @Test
+    public void testGetNumberOfCellsInRange3() {
+        densityMetric = new DensityMetricTester(immediacyFactor, 3, grid);
+
+        Map<Integer,Integer> rangeMap = densityMetric.getNumberOfCellsInRange(3, new Position(2,3), Vegetation.class);
+
+        assertEquals("[testGetNumberOfCellsInRange3] Length of map should be 3", 3, rangeMap.size());
+
+        assertEquals("[testGetNumberOfCellsInRange3] Number of vegetation cells at range 3 should be 3",
+                new Integer(3), rangeMap.get(3));
+        assertEquals("[testGetNumberOfCellsInRange3] Number of vegetation cells at range 2 should be 7",
+                new Integer(7), rangeMap.get(2));
+
+        rangeMap = densityMetric.getNumberOfCellsInRange(3, new Position(2,3), NonVegetation.class);
+        assertEquals("[testGetNumberOfCellsInRange3] Number of non-vegetation cells at range 3 should be 6",
+                new Integer(6), rangeMap.get(3));
+        assertEquals("[testGetNumberOfCellsInRange3] Number of non-vegetation cells at range 2 should be 1",
+                new Integer(1), rangeMap.get(2));
+
+        rangeMap = densityMetric.getNumberOfCellsInRange(3, new Position(4,5), Vegetation.class);
+        assertEquals("[testGetNumberOfCellsInRange3] Number of vegetation cells at range 3 should be 4",
+                new Integer(4), rangeMap.get(3));
+        assertEquals("[testGetNumberOfCellsInRange3] Number of vegetation cells at range 2 should be 2",
+                new Integer(2), rangeMap.get(2));
+        assertEquals("[testGetNumberOfCellsInRange3] Number of vegetation cells at range 1 should be 1",
+                new Integer(1), rangeMap.get(1));
+
+        rangeMap = densityMetric.getNumberOfCellsInRange(3, new Position(4,5), NonVegetation.class);
+        assertEquals("[testGetNumberOfCellsInRange3] Number of non-vegetation cells at range 3 should be 0",
+                new Integer(0), rangeMap.get(3));
+        assertEquals("[testGetNumberOfCellsInRange3] Number of non-vegetation cells at range 2 should be 1",
+                new Integer(1), rangeMap.get(2));
+        assertEquals("[testGetNumberOfCellsInRange3] Number of non-vegetation cells at range 1 should be 1",
+                new Integer(1), rangeMap.get(1));
+    }
+
+    @Test
+    public void testGetNumberOfCellsInRange3ForTypeCell() {
+        densityMetric = new DensityMetricTester(immediacyFactor, 3, grid);
+
+        Map<Integer,Integer> rangeMap = densityMetric.getNumberOfCellsInRange(3, new Position(2,2), Cell.class);
+        assertEquals("[testGetNumberOfCellsInRange3ForTypeCell] Number of cells at range 3 should be 9",
+                new Integer(9), rangeMap.get(3));
+        assertEquals("[testGetNumberOfCellsInRange3ForTypeCell] Number of cells at range 2 should be 8",
+                new Integer(8), rangeMap.get(2));
+        assertEquals("[testGetNumberOfCellsInRange3ForTypeCell] Number of cells at range 1 should be 4",
+                new Integer(4), rangeMap.get(1));
+
+        rangeMap = densityMetric.getNumberOfCellsInRange(3, new Position(4,5), Cell.class);
+        assertEquals("[testGetNumberOfCellsInRange3ForTypeCell] Number of cells at range 3 should be 4",
+                new Integer(4), rangeMap.get(3));
+        assertEquals("[testGetNumberOfCellsInRange3ForTypeCell] Number of cells at range 2 should be 3",
+                new Integer(3), rangeMap.get(2));
+        assertEquals("[testGetNumberOfCellsInRange3ForTypeCell] Number of cells at range 1 should be 2",
+                new Integer(2), rangeMap.get(1));
     }
 }

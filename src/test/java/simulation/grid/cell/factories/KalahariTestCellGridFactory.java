@@ -11,7 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class KalahariTestCellGridFactory extends CellGridFactory {
+public class
+KalahariTestCellGridFactory extends CellGridFactory {
 
     private int numberOfRows = 6;
     private int numberOfColumns = 5;

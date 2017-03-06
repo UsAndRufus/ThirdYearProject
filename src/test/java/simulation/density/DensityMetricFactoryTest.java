@@ -17,9 +17,12 @@ public class DensityMetricFactoryTest {
     public void testCreateDensityMetric() {
         Grid grid = TestGridFactory.createTestGrid();
         DensityParameters densityParameters = new DensityParameters(3.0, 10, "pareto");
-
         assertTrue("[testCreateDensityMetric] Should be instance of ParetoDensity",
                 DensityMetricFactory.createDensityMetric(densityParameters, grid) instanceof ParetoDensity);
+
+        densityParameters = new DensityParameters(0.2, 10, "exponential");
+        assertTrue("[testCreateDensityMetric] Should be instance of ExponentialDensity",
+                DensityMetricFactory.createDensityMetric(densityParameters,grid) instanceof ExponentialDensity);
 
         exception.expect(IllegalArgumentException.class);
         densityParameters = new DensityParameters(3.0, 10, "banana");

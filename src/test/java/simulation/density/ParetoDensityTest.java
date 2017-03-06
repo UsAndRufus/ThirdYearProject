@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ParetoDensityTest {
 
-    private static final double DELTA = 1e-15;
+    private static final double DELTA = 0.00001d;
 
     private ParetoDensity paretoDensity;
     private double immediacyFactor = 3.0;
@@ -60,6 +60,13 @@ public class ParetoDensityTest {
         int x = 2;
         int y = 2;
         double expected = 769.0 / 1152.0; // did the maths on paper yo
+
+        assertEquals("[testCalculateFor] The density given should be the one from hand calculation (within delta)",
+                expected, paretoDensity.calculateFor(new Position(x, y)), DELTA);
+
+        x = 4;
+        y = 5;
+        expected = 302.0 / 545.0; // did the maths on paper yo
 
         assertEquals("[testCalculateFor] The density given should be the one from hand calculation (within delta)",
                 expected, paretoDensity.calculateFor(new Position(x, y)), DELTA);

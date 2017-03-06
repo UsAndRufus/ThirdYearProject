@@ -8,6 +8,8 @@ public class DensityMetricFactory {
         switch (densityParameters.getMetricType()) {
             case "pareto":
                 return new ParetoDensity(densityParameters, grid);
+            case "exponential":
+                return new ExponentialDensity(densityParameters, grid);
             default:
                 throw new IllegalArgumentException("No density metric found called "
                         + densityParameters.getMetricType() + "!");

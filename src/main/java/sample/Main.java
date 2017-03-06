@@ -33,7 +33,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //launch(args);
-        DensityParameters densityParameters = new DensityParameters(3.0, 10, "pareto");
+        DensityParameters densityParameters = new DensityParameters(0.3, 10, "exponential");
 
         KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 200, densityParameters);
 
@@ -62,7 +62,7 @@ public class Main extends Application {
         }
 
         GridImageCreator gridImageCreator = new GridImageCreator();
-        gridImageCreator.createImage(kalahari.getGrid(), "test");
+        gridImageCreator.createImage(kalahari.getGrid(), densityParameters.getMetricType());
 
         //kalahari.getGrid().printToConsole();
     }
