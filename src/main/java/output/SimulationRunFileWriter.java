@@ -21,7 +21,7 @@ public class SimulationRunFileWriter {
 
     public void writeSimulationRunToFile(ProbabilityDistribution probabilityDistribution,
                                          KalahariParameters kalahariParameters) throws IOException {
-        Path path = Paths.get(createFilename(probabilityDistribution.getName()));
+        Path path = PathCreator.createPath(ROOT_PATH, probabilityDistribution.getName(), FILE_ENDING);
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
 
             writer.write("#" + probabilityDistribution.getName() + System.lineSeparator());
@@ -50,11 +50,6 @@ public class SimulationRunFileWriter {
                 writer.write(line);
             }
         }
-    }
-
-    private String createFilename(String distributionName) {
-        LocalDateTime now = LocalDateTime.now();
-        return ROOT_PATH + distributionName + "~" + now.format(dateTimeFormatter) + FILE_ENDING;
     }
 
 }
