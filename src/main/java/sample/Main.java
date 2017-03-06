@@ -9,7 +9,9 @@ import simulation.KalahariParameters;
 import simulation.clustering.Cluster;
 import simulation.clustering.ClusterStatistics;
 import simulation.clustering.KalahariClusteringMetric;
+import simulation.density.DensityMetric;
 import simulation.density.DensityParameters;
+import simulation.density.ParetoDensity;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,14 +33,14 @@ public class Main extends Application {
     public static void main(String[] args) {
         //launch(args);
 
-        DensityParameters densityParameters = new DensityParameters(3.0,4);
+        DensityParameters densityParameters = new DensityParameters(3.0, 10, "pareto");
 
         KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 200, densityParameters);
 
         Kalahari kalahari = new Kalahari(kalahariParameters);
 
         long start = System.currentTimeMillis();
-        kalahari.run(false);
+        kalahari.run(true);
         System.out.println("Run took " + (System.currentTimeMillis() - start) + "ms");
 
         KalahariClusteringMetric kalahariClusteringMetric = new KalahariClusteringMetric(kalahari.getGrid());
@@ -52,7 +54,8 @@ public class Main extends Application {
         SimulationRunFileWriter simulationRunFileWriter = new SimulationRunFileWriter();
         try {
             simulationRunFileWriter.writeSimulationRunToFile(
-                    new ProbabilityDistribution(probabilityMap, "test", "Cluster size", "Probability"),
+                    new ProbabilityDistribution(probabilityMap, densityParameters.getMetricType(), "Cluster size",
+                            "Probability"),
                     kalahariParameters);
         } catch (IOException e) {
             e.printStackTrace();

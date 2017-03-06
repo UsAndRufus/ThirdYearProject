@@ -1,7 +1,7 @@
 package simulation;
 
 import simulation.density.DensityMetric;
-import simulation.density.ParetoDensity;
+import simulation.density.DensityMetricFactory;
 import simulation.grid.Grid;
 import simulation.grid.Position;
 import simulation.grid.cell.Cell;
@@ -37,7 +37,7 @@ public class Kalahari {
         this.grid = new Grid(parameters.getNumberOfRows(), parameters.getNumberOfColumns(),
                 cellGridFactory);
 
-        this.densityMetric = new ParetoDensity(parameters.getDensityParameters(), grid);
+        this.densityMetric = DensityMetricFactory.createDensityMetric(parameters.getDensityParameters(), grid);
     }
 
     public void run(boolean print) {

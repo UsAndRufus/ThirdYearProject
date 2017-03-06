@@ -12,7 +12,7 @@ public class KalahariTest {
 
     public KalahariTest() {
         KalahariTestCellGridFactory kalahariTestCellGridFactory = new KalahariTestCellGridFactory(new TestCellFactory());
-        DensityParameters densityParameters = new DensityParameters(3.0,10);
+        DensityParameters densityParameters = new DensityParameters(3.0,10,"pareto");
         kalahariParameters = new KalahariParameters(kalahariTestCellGridFactory.getNumberOfRows(),
                 kalahariTestCellGridFactory.getNumberOfColumns(), kalahariTestCellGridFactory.getProportionVegetation(),
                 0.2, 200, densityParameters);
