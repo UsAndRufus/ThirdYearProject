@@ -73,6 +73,17 @@ public class ClusterStatisticsTest {
         assertProbabilityMapsAreEqual(expectedCumulativeProbabilityDistribution, cumulativeProbabilityDistributionMap);
     }
 
+    @Test
+    public void testGetNumberOfClustersDistribution() {
+        Map<Integer, Double> numberOfClustersDistribution = clusterStatistics.getNumberOfClustersDistribution();
+
+        Map<Integer, Double> expectedNumberOfClustersDistribution =
+                kalahariTestCellGridFactory.getNumberOfClustersDistribution();
+
+        assertProbabilityMapsAreEqual(expectedNumberOfClustersDistribution, numberOfClustersDistribution);
+
+    }
+
     private void assertProbabilityMapsAreEqual(Map<Integer, Double> expected, Map<Integer, Double> actual) {
         for (int key : expected.keySet()) {
             double expectedProbability = expected.get(key);

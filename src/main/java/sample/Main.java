@@ -33,7 +33,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //launch(args);
-        DensityParameters densityParameters = new DensityParameters(3.0, 20, "pareto");
+        DensityParameters densityParameters = new DensityParameters(3.0, 10, "pareto");
 
         KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 1000, densityParameters);
 
@@ -49,13 +49,13 @@ public class Main extends Application {
 
         ClusterStatistics clusterStatistics = new ClusterStatistics(clusters);
 
-        Map<Integer, Double> probabilityMap = clusterStatistics.getCumulativeProbabilityDistribution();
+        Map<Integer, Double> distribution = clusterStatistics.getNumberOfClustersDistribution();
 
         SimulationRunFileWriter simulationRunFileWriter = new SimulationRunFileWriter();
         try {
             simulationRunFileWriter.writeSimulationRunToFile(
-                    new ProbabilityDistribution(probabilityMap, densityParameters.getMetricType(), "Cluster size",
-                            "Probability"),
+                    new ProbabilityDistribution(distribution, densityParameters.getMetricType(), "Cluster size",
+                            "Number of Clusters"),
                     kalahariParameters);
         } catch (IOException e) {
             e.printStackTrace();

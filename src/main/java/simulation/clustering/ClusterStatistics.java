@@ -56,6 +56,23 @@ public class ClusterStatistics {
         return cumulativeProbabilityDistribution;
     }
 
+    // x = cluster size, y = number of clusters of that size
+    public Map<Integer, Double> getNumberOfClustersDistribution() {
+        Map<Integer, Double> clusterSizeAgainstNumberOfClusters = new HashMap<>();
+
+        for (Cluster cluster : clusters) {
+            int clusterSize = cluster.getNumberOfPositionsInCluster();
+            if (!clusterSizeAgainstNumberOfClusters.containsKey(clusterSize)) {
+                clusterSizeAgainstNumberOfClusters.put(clusterSize, 1.0);
+            } else {
+                double currentNumberOfClusters = clusterSizeAgainstNumberOfClusters.get(clusterSize);
+                clusterSizeAgainstNumberOfClusters.put(clusterSize, currentNumberOfClusters + 1);
+            }
+        }
+
+        return clusterSizeAgainstNumberOfClusters;
+    }
+
     public void print() {
         System.out.println("There are " + clusters.size() + " clusters");
 
