@@ -15,8 +15,6 @@ import static org.junit.Assert.*;
 
 public class DensityMetricTest {
 
-    private static final double DELTA = 1e-15;
-
     private DensityMetric densityMetric;
     private double immediacyFactor = 3.0;
 

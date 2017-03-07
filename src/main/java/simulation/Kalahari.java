@@ -19,6 +19,8 @@ import java.util.Random;
 // TODO: this class needs tests
 public class Kalahari {
 
+    private static final double PROPORTION_VEGETATION_TO_START_WITH = 0.5;
+
     private Grid grid;
     private DensityMetric densityMetric;
 
@@ -32,7 +34,7 @@ public class Kalahari {
         this.fractionOfCellsToUpdateEveryTick = parameters.getFractionOfCellsToUpdateEveryTick();
         this.years = parameters.getYears();
 
-        CellFactory kalahariCellFactory = new KalahariCellFactory(proportionVegetation);
+        CellFactory kalahariCellFactory = new KalahariCellFactory(PROPORTION_VEGETATION_TO_START_WITH);
         CellGridFactory cellGridFactory = new CellGridFactory(kalahariCellFactory);
         this.grid = new Grid(parameters.getNumberOfRows(), parameters.getNumberOfColumns(),
                 cellGridFactory);
