@@ -48,8 +48,6 @@ public class ExponentialDensityTest {
             y = 5;
             expected = 0.5918643884; // did the maths on paper yo
 
-            System.out.println(grid.getCell(new Position(x,y)));
-
             assertEquals("[testCalculateFor] The density given should be the one from hand calculation (within delta)",
                     expected, exponentialDensity.calculateFor(new Position(x, y)), DELTA);
         }
@@ -68,8 +66,6 @@ public class ExponentialDensityTest {
             x = 4;
             y = 5;
             expected = 0.7451856007; // did the maths on paper yo
-
-            System.out.println(grid.getCell(new Position(x,y)));
 
             assertEquals("[testCalculateFor] The density given should be the one from hand calculation (within delta)",
                     expected, exponentialDensity.calculateFor(new Position(x, y)), DELTA);

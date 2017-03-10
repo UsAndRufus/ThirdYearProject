@@ -36,6 +36,52 @@ public class ClusterStatistics {
         return probabilityMap;
     }
 
+    public Map<Integer, Double> getCumulativeProbabilitiesNew() {
+
+        // get cluster size count
+        Map<Integer, Integer> clusterSizeCount = new HashMap<>();
+        for (Cluster cluster : clusters) {
+            int clusterSize = cluster.getNumberOfPositionsInCluster();
+            if (!clusterSizeCount.containsKey(clusterSize)) {
+                clusterSizeCount.put(clusterSize, 16);
+            } else {
+                int currentCount = clusterSizeCount.get(clusterSize);
+                clusterSizeCount.put(clusterSize, currentCount + 16);
+            }
+        }
+
+        // get CUMULATIVE cluster size count
+        // i.e. if there is a cluster of size 745, there are 745 size 1 clusters in it, 372 size 2 clusters in it, etc
+
+        // if we have 1 cluster of size 1, one of size 2, and one of size 3
+        // P(A>=1) = 6/6, P(A>=2) = 2 / 6, P(A>=3) = 1/6
+
+        List<Integer> clusterSizeKeys = clusterSizeCount.keySet().stream().sorted().collect(Collectors.toList());
+        List<Integer> clusterSizeKeysRemaining = new ArrayList<>(clusterSizeKeys);
+
+        Map<Integer, Integer> cumulativeClusterSizeCount = new HashMap<>();
+        for (Integer clusterSize : clusterSizeKeys) {
+            int currentSum = clusterSizeCount.get(clusterSize);
+            clusterSizeKeysRemaining.remove(clusterSize); // already added
+            for (Integer clusterSizeToAdd : clusterSizeKeysRemaining) {
+                currentSum += (clusterSizeCount.get(clusterSizeToAdd) * clusterSizeToAdd) / clusterSize;
+            }
+            cumulativeClusterSizeCount.put(clusterSize,currentSum);
+        }
+
+        // divide all cumulative cluster sizes sums by total cumulative number of cells
+        double cumulativeNumberOfCells = cumulativeClusterSizeCount.get(1);
+
+        Map<Integer, Double> cumulativeProbabilityDistribution = new HashMap<>();
+
+        for (Integer size : cumulativeClusterSizeCount.keySet()) {
+            cumulativeProbabilityDistribution.put(size, cumulativeClusterSizeCount.get(size) / cumulativeNumberOfCells);
+        }
+
+
+        return cumulativeProbabilityDistribution;
+    }
+
     public Map<Integer, Double> getCumulativeProbabilityDistribution() {
         Map<Integer, Double> probabilityMap = getProbabilities();
 
@@ -71,6 +117,17 @@ public class ClusterStatistics {
         }
 
         return clusterSizeAgainstNumberOfClusters;
+    }
+
+    public void printNew() {
+        Map<Integer, Double> cumulativeProbabilityDistribution = getCumulativeProbabilitiesNew();
+
+        cumulativeProbabilityDistribution
+                .keySet()
+                .stream()
+                .sorted(Comparator.reverseOrder())
+                .map(clusterSize -> "P(A>=" + clusterSize + ") = " + cumulativeProbabilityDistribution.get(clusterSize))
+                .forEach(System.out::println);
     }
 
     public void print() {

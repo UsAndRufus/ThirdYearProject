@@ -19,6 +19,7 @@ import java.util.Random;
 // TODO: this class needs tests
 public class Kalahari {
 
+    // change this if neutral model
     private static final double PROPORTION_VEGETATION_TO_START_WITH = 0.5;
 
     private Grid grid;

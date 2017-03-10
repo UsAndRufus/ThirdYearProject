@@ -41,7 +41,7 @@ public class SimulationRunFileWriter {
                     .keySet()
                     .stream()
                     .sorted()
-                    .map(key -> "" + key + "    " + probabilityDistribution.getDistributionMap().get(key)
+                    .map(key -> "" + 16*key + "    " + probabilityDistribution.getDistributionMap().get(key)
                             + System.lineSeparator())
                     .collect(Collectors.toList());
 

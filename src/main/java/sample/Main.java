@@ -48,8 +48,9 @@ public class Main extends Application {
         List<Cluster> clusters = kalahariClusteringMetric.getClusters();
 
         ClusterStatistics clusterStatistics = new ClusterStatistics(clusters);
+        clusterStatistics.printNew();
 
-        Map<Integer, Double> distribution = clusterStatistics.getNumberOfClustersDistribution();
+        Map<Integer, Double> distribution = clusterStatistics.getCumulativeProbabilitiesNew();
 
         SimulationRunFileWriter simulationRunFileWriter = new SimulationRunFileWriter();
         try {
