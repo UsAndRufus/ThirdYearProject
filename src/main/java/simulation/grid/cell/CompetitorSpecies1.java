@@ -1,9 +1,9 @@
 package simulation.grid.cell;
 
-public abstract class Cell {
+public class CompetitorSpecies1 extends Cell {
 
     @Override
     public String toString() {
-        return "Cell";
+        return "CompetitorSpecies1";
     }
 }

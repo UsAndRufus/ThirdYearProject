@@ -6,13 +6,11 @@ import output.ProbabilityDistribution;
 import output.SimulationRunFileWriter;
 import output.image.GridImageCreator;
 import simulation.Kalahari;
-import simulation.KalahariParameters;
+import simulation.SimulationParameters;
 import simulation.clustering.Cluster;
 import simulation.clustering.ClusterStatistics;
 import simulation.clustering.KalahariClusteringMetric;
-import simulation.density.DensityMetric;
 import simulation.density.DensityParameters;
-import simulation.density.ParetoDensity;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,11 +31,11 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //launch(args);
+        SimulationParameters simulationParameters = new SimulationParameters(500, 500, 0.2, 200);
+        double proportionVegetation = 0.3;
         DensityParameters densityParameters = new DensityParameters(3.0, 10, "pareto");
 
-        KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 200, densityParameters);
-
-        Kalahari kalahari = new Kalahari(kalahariParameters);
+        Kalahari kalahari = new Kalahari(simulationParameters, proportionVegetation, densityParameters);
 
         long start = System.currentTimeMillis();
         kalahari.run(true);
@@ -56,8 +54,7 @@ public class Main extends Application {
         try {
             simulationRunFileWriter.writeSimulationRunToFile(
                     new ProbabilityDistribution(distribution, densityParameters.getMetricType(), "Cluster size",
-                            "Number of Clusters"),
-                    kalahariParameters);
+                            "Number of Clusters"), simulationParameters, proportionVegetation, densityParameters);
         } catch (IOException e) {
             e.printStackTrace();
         }

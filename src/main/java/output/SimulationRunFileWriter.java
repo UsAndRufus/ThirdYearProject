@@ -1,6 +1,7 @@
 package output;
 
-import simulation.KalahariParameters;
+import simulation.SimulationParameters;
+import simulation.density.DensityParameters;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -20,18 +21,19 @@ public class SimulationRunFileWriter {
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm");
 
     public void writeSimulationRunToFile(ProbabilityDistribution probabilityDistribution,
-                                         KalahariParameters kalahariParameters) throws IOException {
+                                         SimulationParameters simulationParameters, double proportionVegetation,
+                                         DensityParameters densityParameters) throws IOException {
         Path path = PathCreator.createPath(ROOT_PATH, probabilityDistribution.getName(), FILE_ENDING);
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
 
             writer.write("#" + probabilityDistribution.getName() + System.lineSeparator());
-            writer.write("#" + kalahariParameters.getNumberOfRows() + System.lineSeparator());
-            writer.write("#" + kalahariParameters.getNumberOfColumns() + System.lineSeparator());
-            writer.write("#" + kalahariParameters.getProportionVegetation() + System.lineSeparator());
-            writer.write("#" + kalahariParameters.getFractionOfCellsToUpdateEveryTick() + System.lineSeparator());
-            writer.write("#" + kalahariParameters.getYears() + System.lineSeparator());
-            writer.write("# " + kalahariParameters.getDensityParameters().getImmediacyFactor() +System.lineSeparator());
-            writer.write("# " + kalahariParameters.getDensityParameters().getMaximumDistance() +System.lineSeparator());
+            writer.write("#" + simulationParameters.getNumberOfRows() + System.lineSeparator());
+            writer.write("#" + simulationParameters.getNumberOfColumns() + System.lineSeparator());
+            writer.write("#" + proportionVegetation + System.lineSeparator());
+            writer.write("#" + simulationParameters.getFractionOfCellsToUpdateEveryTick() + System.lineSeparator());
+            writer.write("#" + simulationParameters.getYears() + System.lineSeparator());
+            writer.write("# " + densityParameters.getImmediacyFactor() +System.lineSeparator());
+            writer.write("# " + densityParameters.getMaximumDistance() +System.lineSeparator());
 
             writer.write("# " + probabilityDistribution.getIntegerColumnName() + "    " +
                     probabilityDistribution.getDoubleColumnName() + System.lineSeparator());
