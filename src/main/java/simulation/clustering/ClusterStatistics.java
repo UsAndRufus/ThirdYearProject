@@ -43,10 +43,10 @@ public class ClusterStatistics {
         for (Cluster cluster : clusters) {
             int clusterSize = cluster.getNumberOfPositionsInCluster();
             if (!clusterSizeCount.containsKey(clusterSize)) {
-                clusterSizeCount.put(clusterSize, 16);
+                clusterSizeCount.put(clusterSize, 1);
             } else {
                 int currentCount = clusterSizeCount.get(clusterSize);
-                clusterSizeCount.put(clusterSize, currentCount + 16);
+                clusterSizeCount.put(clusterSize, currentCount + 1);
             }
         }
 

@@ -35,7 +35,7 @@ public class Main extends Application {
         //launch(args);
         DensityParameters densityParameters = new DensityParameters(3.0, 10, "pareto");
 
-        KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 1000, densityParameters);
+        KalahariParameters kalahariParameters = new KalahariParameters(500, 500, 0.3, 0.2, 200, densityParameters);
 
         Kalahari kalahari = new Kalahari(kalahariParameters);
 
