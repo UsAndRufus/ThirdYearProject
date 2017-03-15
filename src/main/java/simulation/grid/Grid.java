@@ -18,6 +18,8 @@ public class Grid {
         this.cellGrid = cellGridFactory.createNewCellGrid(numberOfRows, numberOfColumns);
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
+
+        getFractionalVegetationCover();
     }
 
     public Cell getCell(Position position) {
@@ -48,9 +50,11 @@ public class Grid {
         }
 
         if ((getCell(position) instanceof NonVegetation)
-                && (cell instanceof Vegetation)) {
+                && ((cell instanceof Vegetation) || (cell instanceof CompetitorSpecies1) ||
+                (cell instanceof CompetitorSpecies2))) {
             fractionalVegetationCover += (1 / (double) (numberOfRows * numberOfColumns));
-        } else if ((getCell(position) instanceof Vegetation)
+        } else if (((getCell(position) instanceof Vegetation) || (getCell(position) instanceof CompetitorSpecies1) ||
+                (getCell(position) instanceof CompetitorSpecies2))
                 && (cell instanceof NonVegetation)) {
             fractionalVegetationCover -= (1 / (double) (numberOfRows * numberOfColumns));
         }

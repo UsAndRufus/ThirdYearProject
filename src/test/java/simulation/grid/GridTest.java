@@ -3,10 +3,7 @@ package simulation.grid;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import simulation.grid.cell.Cell;
-import simulation.grid.cell.NonVegetation;
-import simulation.grid.cell.TestCell;
-import simulation.grid.cell.Vegetation;
+import simulation.grid.cell.*;
 
 import java.util.List;
 
@@ -137,9 +134,7 @@ public class GridTest {
     }
 
     @Test
-    public void testSetCellChangesFractionalVegetationCover() {
-
-        // veg -> veg
+    public void testSetCellChangesFractionalVegetationCoverVegToVeg() {
         Grid grid = TestGridFactory.createTestGrid();
         double expectedVegetationCover = grid.getFractionalVegetationCover();
         Position positionToChange = new Position(0,0);
@@ -149,34 +144,77 @@ public class GridTest {
         assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be the same as previously",
                 expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
 
-        // non-veg -> non-veg
-        grid = TestGridFactory.createTestGrid();
-        expectedVegetationCover = grid.getFractionalVegetationCover();
-        positionToChange = new Position(1,0);
+        grid.setCell(positionToChange, new CompetitorSpecies1());
+        assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be the same as previously",
+                expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
+
+        grid.setCell(positionToChange, new CompetitorSpecies2());
+        assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be the same as previously",
+                expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
+    }
+
+    @Test
+    public void testSetCellChangesFractionalVegetationCoverNonVegToNonVeg() {
+        Grid grid = TestGridFactory.createTestGrid();
+        double expectedVegetationCover = grid.getFractionalVegetationCover();
+        Position positionToChange = new Position(1,0);
         assertTrue("[testSetCellChangesFractionalVegetationCover] Test makes no sense if cell isn't non-vegetation",
                 grid.getCell(positionToChange) instanceof NonVegetation);
         grid.setCell(positionToChange, new NonVegetation());
         assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be the same",
                 expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
+    }
 
-
-        // veg -> non-veg
-        grid = TestGridFactory.createTestGrid();
-        expectedVegetationCover = grid.getFractionalVegetationCover() - (1.0 / (double) (xBound * yBound));
-        positionToChange = new Position(0,0);
+    @Test
+    public void testSetCellChangesFractionalVegetationCoverVegToNonVeg() {
+        Grid grid = TestGridFactory.createTestGrid();
+        double expectedVegetationCover = grid.getFractionalVegetationCover() - (1.0 / (double) (xBound * yBound));
+        Position positionToChange = new Position(0,0);
         assertTrue("[testSetCellChangesFractionalVegetationCover] Test makes no sense if cell isn't vegetation",
                 grid.getCell(positionToChange) instanceof Vegetation);
+
         grid.setCell(positionToChange, new NonVegetation());
         assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be less than previously",
                 expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
 
-        // non-veg -> veg
         grid = TestGridFactory.createTestGrid();
-        expectedVegetationCover = grid.getFractionalVegetationCover() + (1.0 / (double) (xBound * yBound));
-        positionToChange = new Position(1,0);
+        grid.setCell(positionToChange, new CompetitorSpecies1());
+        assertTrue("[testSetCellChangesFractionalVegetationCover] Test makes no sense if cell isn't species 1",
+                grid.getCell(positionToChange) instanceof CompetitorSpecies1);
+
+        grid.setCell(positionToChange, new NonVegetation());
+        assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be less than previously",
+                expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
+
+        grid = TestGridFactory.createTestGrid();
+        grid.setCell(positionToChange, new CompetitorSpecies2());
+        assertTrue("[testSetCellChangesFractionalVegetationCover] Test makes no sense if cell isn't species 2",
+                grid.getCell(positionToChange) instanceof CompetitorSpecies2);
+
+        grid.setCell(positionToChange, new NonVegetation());
+        assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be less than previously",
+                expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
+    }
+
+    @Test
+    public void testSetCellChangesFractionalVegetationCoverNonVegToVeg() {
+        Grid grid = TestGridFactory.createTestGrid();
+        double expectedVegetationCover = grid.getFractionalVegetationCover() + (1.0 / (double) (xBound * yBound));
+        Position positionToChange = new Position(1,0);
         assertTrue("[testSetCellChangesFractionalVegetationCover] Test makes no sense if cell isn't non-vegetation",
                 grid.getCell(positionToChange) instanceof NonVegetation);
+
         grid.setCell(positionToChange, new Vegetation());
+        assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be increased",
+                expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
+
+        grid = TestGridFactory.createTestGrid();
+        grid.setCell(positionToChange, new CompetitorSpecies1());
+        assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be increased",
+                expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
+
+        grid = TestGridFactory.createTestGrid();
+        grid.setCell(positionToChange, new CompetitorSpecies2());
         assertEquals("[testSetCellChangesFractionalVegetationCover] Fractional cover should be increased",
                 expectedVegetationCover, grid.getFractionalVegetationCover(), DOUBLE_PRECISION);
     }

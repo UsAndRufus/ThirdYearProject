@@ -10,7 +10,11 @@ import simulation.grid.cell.factories.CellFactory;
 import simulation.grid.cell.factories.CellGridFactory;
 import simulation.grid.cell.factories.CompetitorsCellFactory;
 
+import java.util.Random;
+
 public class Competitors extends Simulation {
+
+    private Random random = new Random();
 
     private DensityMetric densityMetric;
 
@@ -28,6 +32,10 @@ public class Competitors extends Simulation {
 
     @Override
     protected Cell positionShouldTransitionTo(Position position) {
+        double vegetationDensityAtPosition = densityMetric.calculateFor(position);
+        double fractionalVegetationCover = grid.getFractionalVegetationCover();
+
+
         return grid.getCell(position);
     }
 
