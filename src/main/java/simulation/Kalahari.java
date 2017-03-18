@@ -12,9 +12,6 @@ import simulation.grid.cell.factories.CellFactory;
 import simulation.grid.cell.factories.CellGridFactory;
 import simulation.grid.cell.factories.KalahariCellFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 // TODO: this class needs tests
@@ -46,11 +43,11 @@ public class Kalahari extends Simulation {
     protected Cell positionShouldTransitionTo(Position position) {
         Random random = new Random();
 
-        double vegetationDensityAtPosition = densityMetric.calculateFor(position);
+        double vegetationDensityAtPosition = densityMetric.calculateFor(position, Vegetation.class);
         double fractionalVegetationCover = grid.getFractionalVegetationCover();
 
         if (grid.getCell(position) instanceof Vegetation) {
-            if (random.nextDouble() < calculateVegetationToNonVegetationTransitionProbability(
+            if (random.nextDouble() < calculateNonVegetationTransitionProbability(
                     vegetationDensityAtPosition, fractionalVegetationCover, proportionVegetation)) {
                 return new NonVegetation();
             } else {
@@ -75,30 +72,7 @@ public class Kalahari extends Simulation {
         double probability = vegetationDensity + ((fractionalVegetationCoverWithRainfall - fractionalVegetationCover)
                 / (1.0 - fractionalVegetationCover));
 
-        if (probability > 1.0) {
-            probability = 1.0;
-        } else if (probability < 0.0) {
-            probability = 0.0;
-        }
-
-
-        return probability;
-    }
-
-    protected double calculateVegetationToNonVegetationTransitionProbability(double vegetationDensity,
-                                                                             double fractionalVegetationCover,
-                                                                             double fractionalVegetationCoverWithRainfall) {
-
-        double probability = (1.0 - vegetationDensity) + ((fractionalVegetationCover - fractionalVegetationCoverWithRainfall)
-                / fractionalVegetationCover);
-
-        if (probability > 1.0) {
-            probability = 1.0;
-        } else if (probability < 0.0) {
-            probability = 0.0;
-        }
-
-        return probability;
+        return normaliseProbability(probability);
     }
 
     public Grid getGrid() {

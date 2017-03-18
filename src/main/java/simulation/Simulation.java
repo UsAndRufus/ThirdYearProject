@@ -61,4 +61,25 @@ public abstract class Simulation {
     }
 
     abstract protected Cell positionShouldTransitionTo(Position position);
+
+    protected double calculateNonVegetationTransitionProbability(double vegetationDensity,
+                                                                 double fractionalVegetationCover,
+                                                                 double fractionalVegetationCoverWithRainfall) {
+
+        double probability = (1.0 - vegetationDensity) + ((fractionalVegetationCover - fractionalVegetationCoverWithRainfall)
+                / fractionalVegetationCover);
+
+        return normaliseProbability(probability);
+    }
+
+    protected double normaliseProbability(double probability) {
+
+        if (probability > 1.0) {
+            probability = 1.0;
+        } else if (probability < 0.0) {
+            probability = 0.0;
+        }
+
+        return probability;
+    }
 }

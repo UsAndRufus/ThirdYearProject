@@ -11,11 +11,15 @@ public class MainCompetitors {
         SimulationParameters simulationParameters = new SimulationParameters(500, 500, 0.2, 200);
         DensityParameters densityParameters = new DensityParameters(3.0, 10, "pareto");
 
-        Competitors competitors = new Competitors(simulationParameters, 0.1, 0.3, densityParameters);
+        double weightingFactor = 0.1;
+
+        Competitors competitors = new Competitors(simulationParameters, 0.1, 0.3, weightingFactor, densityParameters);
+
+        competitors.run(true);
 
         competitors.getGrid().printStats();
 
         GridImageCreator gridImageCreator = new GridImageCreator();
-        gridImageCreator.createImage(competitors.getGrid(), densityParameters.getMetricType());
+        gridImageCreator.createImage(competitors.getGrid(), "competitors_" + weightingFactor + "_" + densityParameters.getMetricType());
     }
 }

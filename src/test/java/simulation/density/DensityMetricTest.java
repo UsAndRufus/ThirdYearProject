@@ -27,7 +27,7 @@ public class DensityMetricTest {
         }
 
         @Override
-        public double calculateFor(Position position) {
+        public double calculateFor(Position position, Class<? extends Cell> cellClass) {
             return 0;
         }
     }
