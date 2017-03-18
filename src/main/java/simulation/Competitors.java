@@ -42,11 +42,6 @@ public class Competitors extends Simulation {
 
         double competitorSpecies1DensityAtPosition = densityMetric.calculateFor(position, CompetitorSpecies1.class);
         double competitorSpecies2DensityAtPosition = densityMetric.calculateFor(position, CompetitorSpecies2.class);
-        double generalVegetationDensityAtPosition =
-                competitorSpecies1DensityAtPosition + competitorSpecies2DensityAtPosition;
-
-        double nonVegetationTransitionProbability = calculateNonVegetationTransitionProbability(
-                generalVegetationDensityAtPosition, fractionalVegetationCover, targetProportionVegetation);
 
         double species1TransitionProbability = calculateCompetitorSpeciesTransitionProbability(
                 competitorSpecies1DensityAtPosition, competitorSpecies2DensityAtPosition, competitionFactor,
@@ -63,7 +58,6 @@ public class Competitors extends Simulation {
         } else if (rand < (species1TransitionProbability + species2TransitionProbability)) {
             return new CompetitorSpecies2();
         } else {
-            //System.out.println("p(1) = " + species1TransitionProbability + "; p(2) = " + species2TransitionProbability);
             return new NonVegetation();
         }
     }
@@ -82,8 +76,6 @@ public class Competitors extends Simulation {
 
         return normaliseProbability(probability);
     }
-
-
 
     public Grid getGrid() {
         return grid;
