@@ -28,7 +28,7 @@ public class MainCompetitors {
         Competitors competitors = new Competitors(simulationParameters, proportionSpecies1, proportionSpecies2,
                 weightingFactor, densityParameters);
 
-        competitors.run(true);
+        //competitors.run(true);
 
         ProbabilityDistribution species1ProbabilityDistribution
                 = ProbabilityDistribution.createDefaultProbabilityDistribution(competitors.getGrid(),
@@ -38,12 +38,17 @@ public class MainCompetitors {
                 = ProbabilityDistribution.createDefaultProbabilityDistribution(competitors.getGrid(),
                 CompetitorSpecies2.class, densityParameters.getMetricType());
 
+        competitors.getGrid().printStats();
+
         SimulationRunFileWriter simulationRunFileWriter = new SimulationRunFileWriter();
         try {
-            simulationRunFileWriter.writeSimulationRunToFile("competitors-s1", species1ProbabilityDistribution,
-                    simulationParameters, proportionSpecies1, densityParameters);
-            simulationRunFileWriter.writeSimulationRunToFile("competitors-s2", species2ProbabilityDistribution,
-                    simulationParameters, proportionSpecies1, densityParameters);
+//            simulationRunFileWriter.writeSimulationRunToFile("competitors-s1", species1ProbabilityDistribution,
+//                    simulationParameters, proportionSpecies1, densityParameters);
+//            simulationRunFileWriter.writeSimulationRunToFile("competitors-s2", species2ProbabilityDistribution,
+//                    simulationParameters, proportionSpecies1, densityParameters);
+            simulationRunFileWriter.writeCompetitorsRunToFile("test-competitors", species1ProbabilityDistribution,
+                    species2ProbabilityDistribution, simulationParameters, proportionSpecies1 + proportionSpecies2,
+                    densityParameters);
         } catch (IOException e) {
             e.printStackTrace();
         }

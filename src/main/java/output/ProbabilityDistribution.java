@@ -53,6 +53,6 @@ public class ProbabilityDistribution {
         Map<Integer, Double> distribution = clusterStatistics.getCumulativeProbabilitiesNew();
 
         return new ProbabilityDistribution(distribution, metricType, "Cluster size",
-                 "Number of Clusters");
+                 "P(A>=a)");
     }
 }
