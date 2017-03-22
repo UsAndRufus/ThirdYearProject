@@ -26,7 +26,7 @@ public abstract class DensityMetric {
         this.generalNumberOfCellsAtDistance = getGeneralNumberOfCellsAtDistance(maximumDistance);
     }
 
-    public abstract double calculateFor(Position position);
+    public abstract double calculateFor(Position position, Class<? extends Cell> cellClass);
 
     // Visible for testing
     protected Map<Integer, Integer> getGeneralNumberOfCellsAtDistance(int maximumDistance) {

@@ -17,9 +17,9 @@ public class ParetoDensity extends DensityMetric {
     }
 
     @Override
-    public double calculateFor(Position position) {
+    public double calculateFor(Position position, Class<? extends Cell> cellClass) {
         Map<Integer, Integer> numberOfVegetationAtDistance
-                = getNumberOfCellsInRange(maximumDistance, position, Vegetation.class);
+                = getNumberOfCellsInRange(maximumDistance, position, cellClass);
 
         Map<Integer, Integer> numberOfCellsAtDistance;
         if ((!grid.isRangeOutOfBounds(position, maximumDistance))) {

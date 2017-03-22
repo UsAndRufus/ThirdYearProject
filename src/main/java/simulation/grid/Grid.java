@@ -1,8 +1,6 @@
 package simulation.grid;
 
-import simulation.grid.cell.Cell;
-import simulation.grid.cell.NonVegetation;
-import simulation.grid.cell.Vegetation;
+import simulation.grid.cell.*;
 import simulation.grid.cell.factories.CellGridFactory;
 
 import java.util.*;
@@ -20,6 +18,8 @@ public class Grid {
         this.cellGrid = cellGridFactory.createNewCellGrid(numberOfRows, numberOfColumns);
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
+
+        getFractionalVegetationCover();
     }
 
     public Cell getCell(Position position) {
@@ -50,9 +50,11 @@ public class Grid {
         }
 
         if ((getCell(position) instanceof NonVegetation)
-                && (cell instanceof Vegetation)) {
+                && ((cell instanceof Vegetation) || (cell instanceof CompetitorSpecies1) ||
+                (cell instanceof CompetitorSpecies2))) {
             fractionalVegetationCover += (1 / (double) (numberOfRows * numberOfColumns));
-        } else if ((getCell(position) instanceof Vegetation)
+        } else if (((getCell(position) instanceof Vegetation) || (getCell(position) instanceof CompetitorSpecies1) ||
+                (getCell(position) instanceof CompetitorSpecies2))
                 && (cell instanceof NonVegetation)) {
             fractionalVegetationCover -= (1 / (double) (numberOfRows * numberOfColumns));
         }
@@ -138,5 +140,32 @@ public class Grid {
 
         System.out.println("" + numberOfVegetationCells + "/" + totalNumberOfCells + " vegetation/total");
         System.out.println();
+    }
+
+    public void printStats()  {
+
+        int numberOfVegetationCells = 0;
+        int numberOfSpecies1Cells = 0;
+        int numberOfSpecies2Cells = 0;
+        int numberOfNonVegCells = 0;
+
+        for (int currentRow = 0; currentRow < numberOfRows; currentRow++) {
+            for (int currentColumn = 0; currentColumn < numberOfColumns; currentColumn++) {
+                if (cellGrid[currentRow][currentColumn] instanceof Vegetation) {
+                    numberOfVegetationCells++;
+                } else if (cellGrid[currentRow][currentColumn] instanceof CompetitorSpecies1) {
+                    numberOfSpecies1Cells++;
+                } else if (cellGrid[currentRow][currentColumn] instanceof CompetitorSpecies2) {
+                    numberOfSpecies2Cells++;
+                } else {
+                    numberOfNonVegCells++;
+                }
+            }
+        }
+
+        System.out.println("Vegetation cells: " + numberOfVegetationCells
+                + "; species 1 cells: " + numberOfSpecies1Cells
+                + "; species 2 cells: " + numberOfSpecies2Cells
+                + "; non-veg: " + numberOfNonVegCells);
     }
 }

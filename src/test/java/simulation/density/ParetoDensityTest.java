@@ -5,6 +5,7 @@ import org.junit.Test;
 import simulation.grid.Grid;
 import simulation.grid.Position;
 import simulation.grid.TestGridFactory;
+import simulation.grid.cell.Vegetation;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,7 +32,7 @@ public class ParetoDensityTest {
         double expected = 0.75; // did the maths on paper yo
 
         assertEquals("[testCalculateFor] The density given should be the one from hand calculation (within delta)",
-                expected, paretoDensity.calculateFor(new Position(x, y)), DELTA);
+                expected, paretoDensity.calculateFor(new Position(x, y), Vegetation.class), DELTA);
     }
 
     @Test
@@ -43,14 +44,14 @@ public class ParetoDensityTest {
         double expected = 0.675; // did the maths on paper yo
 
         assertEquals("[testCalculateFor] The density given should be the one from hand calculation (within delta)",
-                expected, paretoDensity.calculateFor(new Position(x, y)), DELTA);
+                expected, paretoDensity.calculateFor(new Position(x, y), Vegetation.class), DELTA);
 
         x = 4;
         y = 5;
         expected = 10.0 / 19.0; // did the maths on paper yo
 
         assertEquals("[testCalculateFor] The density given should be the one from hand calculation (within delta)",
-                expected, paretoDensity.calculateFor(new Position(x, y)), DELTA);
+                expected, paretoDensity.calculateFor(new Position(x, y), Vegetation.class), DELTA);
     }
 
     @Test
@@ -62,14 +63,14 @@ public class ParetoDensityTest {
         double expected = 769.0 / 1152.0; // did the maths on paper yo
 
         assertEquals("[testCalculateFor] The density given should be the one from hand calculation (within delta)",
-                expected, paretoDensity.calculateFor(new Position(x, y)), DELTA);
+                expected, paretoDensity.calculateFor(new Position(x, y), Vegetation.class), DELTA);
 
         x = 4;
         y = 5;
         expected = 302.0 / 545.0; // did the maths on paper yo
 
         assertEquals("[testCalculateFor] The density given should be the one from hand calculation (within delta)",
-                expected, paretoDensity.calculateFor(new Position(x, y)), DELTA);
+                expected, paretoDensity.calculateFor(new Position(x, y), Vegetation.class), DELTA);
     }
 
     @Test
