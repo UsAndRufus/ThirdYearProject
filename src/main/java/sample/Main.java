@@ -11,6 +11,9 @@ import simulation.clustering.Cluster;
 import simulation.clustering.ClusterStatistics;
 import simulation.clustering.KalahariClusteringMetric;
 import simulation.density.DensityParameters;
+import simulation.grid.Grid;
+import simulation.grid.cell.Cell;
+import simulation.grid.cell.Vegetation;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,23 +41,17 @@ public class Main extends Application {
         Kalahari kalahari = new Kalahari(simulationParameters, proportionVegetation, densityParameters);
 
         long start = System.currentTimeMillis();
-        kalahari.run(true);
+        //kalahari.run(true);
         System.out.println("Run took " + (System.currentTimeMillis() - start) + "ms");
 
-        KalahariClusteringMetric kalahariClusteringMetric = new KalahariClusteringMetric(kalahari.getGrid());
-
-        List<Cluster> clusters = kalahariClusteringMetric.getClusters();
-
-        ClusterStatistics clusterStatistics = new ClusterStatistics(clusters);
-        clusterStatistics.printNew();
-
-        Map<Integer, Double> distribution = clusterStatistics.getCumulativeProbabilitiesNew();
+        ProbabilityDistribution probabilityDistribution
+                = ProbabilityDistribution.createDefaultProbabilityDistribution(kalahari.getGrid(), Vegetation.class,
+                densityParameters.getMetricType());
 
         SimulationRunFileWriter simulationRunFileWriter = new SimulationRunFileWriter();
         try {
-            simulationRunFileWriter.writeSimulationRunToFile(
-                    new ProbabilityDistribution(distribution, densityParameters.getMetricType(), "Cluster size",
-                            "Number of Clusters"), simulationParameters, proportionVegetation, densityParameters);
+            simulationRunFileWriter.writeSimulationRunToFile("kalahari", probabilityDistribution, simulationParameters,
+                    proportionVegetation, densityParameters);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,6 +59,6 @@ public class Main extends Application {
         GridImageCreator gridImageCreator = new GridImageCreator();
         gridImageCreator.createImage(kalahari.getGrid(), densityParameters.getMetricType());
 
-        //kalahari.getGrid().printToConsole();
+        kalahari.getGrid().printStats();
     }
 }

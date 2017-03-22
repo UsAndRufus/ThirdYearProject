@@ -5,6 +5,7 @@ import simulation.density.DensityParameters;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SimulationRunFileWriter {
 
@@ -20,20 +22,13 @@ public class SimulationRunFileWriter {
 
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm");
 
-    public void writeSimulationRunToFile(ProbabilityDistribution probabilityDistribution,
+    public void writeSimulationRunToFile(String name, ProbabilityDistribution probabilityDistribution,
                                          SimulationParameters simulationParameters, double proportionVegetation,
                                          DensityParameters densityParameters) throws IOException {
-        Path path = PathCreator.createPath(ROOT_PATH, probabilityDistribution.getName(), FILE_ENDING);
+        Path path = PathCreator.createPath(ROOT_PATH, name, FILE_ENDING);
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
 
-            writer.write("#" + probabilityDistribution.getName() + System.lineSeparator());
-            writer.write("#" + simulationParameters.getNumberOfRows() + System.lineSeparator());
-            writer.write("#" + simulationParameters.getNumberOfColumns() + System.lineSeparator());
-            writer.write("#" + proportionVegetation + System.lineSeparator());
-            writer.write("#" + simulationParameters.getFractionOfCellsToUpdateEveryTick() + System.lineSeparator());
-            writer.write("#" + simulationParameters.getYears() + System.lineSeparator());
-            writer.write("# " + densityParameters.getImmediacyFactor() +System.lineSeparator());
-            writer.write("# " + densityParameters.getMaximumDistance() +System.lineSeparator());
+            writeHeader(writer, probabilityDistribution, simulationParameters, proportionVegetation, densityParameters);
 
             writer.write("# " + probabilityDistribution.getIntegerColumnName() + "    " +
                     probabilityDistribution.getDoubleColumnName() + System.lineSeparator());
@@ -52,6 +47,20 @@ public class SimulationRunFileWriter {
                 writer.write(line);
             }
         }
+    }
+
+    private void writeHeader(Writer writer, ProbabilityDistribution probabilityDistribution,
+                             SimulationParameters simulationParameters, double proportionVegetation,
+                             DensityParameters densityParameters) throws IOException {
+        writer.write("# distribution: " + probabilityDistribution.getName() + System.lineSeparator());
+        writer.write("# rows: " + simulationParameters.getNumberOfRows() + System.lineSeparator());
+        writer.write("# columns: " + simulationParameters.getNumberOfColumns() + System.lineSeparator());
+        writer.write("# targetProportion: " + proportionVegetation + System.lineSeparator());
+        writer.write("# fractionOfCellsToUpdateEveryTick: "
+                + simulationParameters.getFractionOfCellsToUpdateEveryTick() + System.lineSeparator());
+        writer.write("# years: " + simulationParameters.getYears() + System.lineSeparator());
+        writer.write("# immediacyFactor: " + densityParameters.getImmediacyFactor() +System.lineSeparator());
+        writer.write("# maximumDistance: " + densityParameters.getMaximumDistance() +System.lineSeparator());
     }
 
 }

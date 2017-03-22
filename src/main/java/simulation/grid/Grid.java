@@ -121,25 +121,23 @@ public class Grid {
 
     // Temporary printing method, remove or move to other class later
     public void printToConsole() {
-        int numberOfVegetationCells = 0;
-        int totalNumberOfCells = 0;
+
 
         for (int currentRow = 0; currentRow < numberOfRows; currentRow++) {
             for (int currentColumn = 0; currentColumn < numberOfColumns; currentColumn++) {
-                if (cellGrid[currentRow][currentColumn] instanceof Vegetation) {
+                Cell cell = cellGrid[currentRow][currentColumn];
+                if (cell instanceof Vegetation) {
                     System.out.print("X");
-                    numberOfVegetationCells++;
-                    totalNumberOfCells++;
+                } else if (cell instanceof CompetitorSpecies1) {
+                    System.out.print("1");
+                } else if (cell instanceof CompetitorSpecies2) {
+                    System.out.print("2");
                 } else {
                     System.out.print("o");
-                    totalNumberOfCells++;
                 }
             }
             System.out.println();
         }
-
-        System.out.println("" + numberOfVegetationCells + "/" + totalNumberOfCells + " vegetation/total");
-        System.out.println();
     }
 
     public void printStats()  {
@@ -163,9 +161,16 @@ public class Grid {
             }
         }
 
-        System.out.println("Vegetation cells: " + numberOfVegetationCells
-                + "; species 1 cells: " + numberOfSpecies1Cells
-                + "; species 2 cells: " + numberOfSpecies2Cells
-                + "; non-veg: " + numberOfNonVegCells);
+        double allCells = (double) numberOfRows * numberOfColumns;
+
+        System.out.println("Total number of cells: " + (int) allCells);
+
+        System.out.println("Vegetation cells: " + (numberOfVegetationCells / allCells)
+                + "; species 1 cells: " + (numberOfSpecies1Cells / allCells)
+                + "; species 2 cells: " + (numberOfSpecies2Cells / allCells)
+                + "; non-veg: " + (numberOfNonVegCells / allCells));
+
+        double totalNumberVegCells = (double) numberOfSpecies1Cells + numberOfSpecies2Cells + numberOfVegetationCells;
+        System.out.println("Proportion of all veg cells: " + (totalNumberVegCells / allCells));
     }
 }
