@@ -6,9 +6,9 @@ fit mean(x) "PATH" using 1:2 via m
 SST = FIT_WSSR/(FIT_NDF+1)
 
 f(x) = (k*x**-b)*exp(-x/c)
-k=1
+k=1000000
 b=1
-c=1
+c=80000
 fit f(x) "PATH" via b,k,c
 SSE=FIT_WSSR/(FIT_NDF)
 
