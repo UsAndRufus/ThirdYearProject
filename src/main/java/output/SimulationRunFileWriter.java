@@ -9,12 +9,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SimulationRunFileWriter {
 
@@ -31,7 +27,7 @@ public class SimulationRunFileWriter {
             writeHeader(writer, probabilityDistribution.getName(), simulationParameters, proportionVegetation,
                     densityParameters);
 
-            writer.write("# " + probabilityDistribution.getIntegerColumnName() + "    " +
+            writer.write("# " + probabilityDistribution.getIntegerColumnName() + WHITESPACE +
                     probabilityDistribution.getDoubleColumnName() + System.lineSeparator());
 
             List<String> linesToWrite =
@@ -44,6 +40,27 @@ public class SimulationRunFileWriter {
                     .collect(Collectors.toList());
 
             // Writing in loop here rather than in stream due to checked exceptions
+            for (String line : linesToWrite) {
+                writer.write(line);
+            }
+        }
+    }
+
+    public void writeMultiRunToFile(String name, Map<Double,Double> weightingAgainstRatios) throws IOException {
+        Path path = PathCreator.createPath(ROOT_PATH, name, FILE_ENDING);
+
+        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            writer.write("# " + "Weighting" + WHITESPACE + "Ratio");
+
+
+            List<String> linesToWrite =
+                    weightingAgainstRatios
+                            .keySet()
+                            .stream()
+                            .sorted()
+                            .map(key -> "" + key + WHITESPACE + weightingAgainstRatios.get(key) + System.lineSeparator())
+                            .collect(Collectors.toList());
+
             for (String line : linesToWrite) {
                 writer.write(line);
             }
@@ -77,6 +94,7 @@ public class SimulationRunFileWriter {
         }
     }
 
+    // doesn't work
     private Map<String, Pair<String, String>> createCombinedMap(Map<Integer, Double> species1Map,
                                                                  Map<Integer, Double> species2Map) {
         Map<String, Pair<String, String>> combined = new HashMap<>();
