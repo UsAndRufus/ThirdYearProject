@@ -21,15 +21,23 @@ public class MainCompetitors {
         SimulationParameters simulationParameters = new SimulationParameters(500, 500, 0.2, 200);
         DensityParameters densityParameters = new DensityParameters(3.0, 10, "pareto");
 
-        double weightingFactor = 0.1;
+        double weightingFactor = 0.05;
         double proportionSpecies1 = 0.1;
-        double proportionSpecies2 = 0.3;
+        double proportionSpecies2 = 0.2;
 
         Competitors competitors = new Competitors(simulationParameters, proportionSpecies1, proportionSpecies2,
                 weightingFactor, densityParameters);
 
         competitors.run(true);
 
+        output(competitors, densityParameters, simulationParameters, proportionSpecies1, proportionSpecies2, weightingFactor);
+
+        competitors.getGrid().printStats();
+    }
+
+    private static void output(Competitors competitors, DensityParameters densityParameters,
+                               SimulationParameters simulationParameters, double proportionSpecies1,
+                               double proportionSpecies2, double weightingFactor) {
         ProbabilityDistribution species1ProbabilityDistribution
                 = ProbabilityDistribution.createDefaultProbabilityDistribution(competitors.getGrid(),
                 CompetitorSpecies1.class, densityParameters.getMetricType());
@@ -38,22 +46,18 @@ public class MainCompetitors {
                 = ProbabilityDistribution.createDefaultProbabilityDistribution(competitors.getGrid(),
                 CompetitorSpecies2.class, densityParameters.getMetricType());
 
-        competitors.getGrid().printStats();
-
         SimulationRunFileWriter simulationRunFileWriter = new SimulationRunFileWriter();
         try {
             simulationRunFileWriter.writeSimulationRunToFile("competitors-s1", species1ProbabilityDistribution,
                     simulationParameters, proportionSpecies1, densityParameters);
             simulationRunFileWriter.writeSimulationRunToFile("competitors-s2", species2ProbabilityDistribution,
-                    simulationParameters, proportionSpecies1, densityParameters);
+                    simulationParameters, proportionSpecies2, densityParameters);
 //            simulationRunFileWriter.writeCompetitorsRunToFile("test-competitors", species1ProbabilityDistribution,
 //                    species2ProbabilityDistribution, simulationParameters, proportionSpecies1 + proportionSpecies2,
 //                    densityParameters);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        competitors.getGrid().printStats();
 
         GridImageCreator gridImageCreator = new GridImageCreator();
         gridImageCreator.createImage(competitors.getGrid(), "competitors_" + weightingFactor + "_" +

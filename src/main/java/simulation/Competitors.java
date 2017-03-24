@@ -16,9 +16,9 @@ public class Competitors extends Simulation {
 
     private Random random = new Random();
 
-    private DensityMetric densityMetric;
-    private double competitionFactor;
-    private double targetProportionVegetation;
+    private final DensityMetric densityMetric;
+    private final double competitionFactor;
+    private final double targetProportionVegetation;
 
     public Competitors(SimulationParameters simulationParameters, double initialProportionSpecies1,
                        double initialProportionSpecies2, double competitionFactor, DensityParameters densityParameters) {
@@ -55,7 +55,8 @@ public class Competitors extends Simulation {
 
         if (rand < species1TransitionProbability) {
             return new CompetitorSpecies1();
-        } else if (rand < (species1TransitionProbability + species2TransitionProbability)) {
+        } else if ((rand >= species1TransitionProbability)
+                && (rand < (species1TransitionProbability + species2TransitionProbability))) {
             return new CompetitorSpecies2();
         } else {
             return new NonVegetation();

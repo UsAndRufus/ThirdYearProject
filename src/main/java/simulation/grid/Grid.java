@@ -97,7 +97,8 @@ public class Grid {
                 for (int y =0; y < numberOfRows; y++) {
                     Position currentPosition = new Position(x,y);
                     Cell currentCell = getCell(currentPosition);
-                    if (currentCell instanceof Vegetation) {
+                    if ((currentCell instanceof Vegetation)|| (currentCell instanceof CompetitorSpecies1)
+                            || (currentCell instanceof CompetitorSpecies2)) {
                         numberOfVegetationCells++;
                     }
                 }
