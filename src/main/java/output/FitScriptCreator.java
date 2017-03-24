@@ -17,26 +17,34 @@ public class FitScriptCreator {
     private static final String FILE_TYPE = ".data";
     private static final Path FIT_SCRIPT_PATH = Paths.get("ThirdYearProject/gnuplot/fit.plt");
     private static final Path COMPETITORS_FIT_SCRIPT_PATH = Paths.get("ThirdYearProject/gnuplot/fit_competitors.plt");
+    private static final Path PROPORTION_FIT_SCRIPT_PATH = Paths.get("ThirdYearProject/gnuplot/multirun.plt");
     private static final String CREATED_DIRECTORY_PATH_STRING = "ThirdYearProject/gnuplot/created/";
 
     public static void main(String[] args) throws IOException {
         System.out.println("Run from outside ThirdYearProject");
-        String dataFilePathString = args[0];
+        String mode = args[0];
 
-        System.out.println("args[0]: " + args[0] + "; args[1]: " + args[1]);
 
-        if (args[1] != null) {
-            createCompetitors(dataFilePathString, args[1]);
-        } else {
-            createFor(dataFilePathString);
+        switch(mode) {
+            case "normal":
+                createFor(args[1], FIT_SCRIPT_PATH);
+                break;
+            case "multirun":
+                createFor(args[1], PROPORTION_FIT_SCRIPT_PATH);
+                break;
+            case "competitors":
+                createCompetitors(args[1], args[2]);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown script option");
         }
     }
 
-    public static void createFor(String dataFilePathString) throws IOException {
+    public static void createFor(String dataFilePathString, Path path) throws IOException {
 
         Path dataFilePath = createDataFilePath(dataFilePathString);
 
-        Path createdFitScript = createFile(dataFilePath, FIT_SCRIPT_PATH);
+        Path createdFitScript = createFile(dataFilePath, path);
 
         replaceFilename(createdFitScript, dataFilePath, "");
     }

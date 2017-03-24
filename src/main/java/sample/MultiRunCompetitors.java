@@ -20,6 +20,7 @@ public class MultiRunCompetitors {
         Map<Double, Double> weightingAgainstRatios = new HashMap<>();
 
         while (currentWeighting <= 1.0) {
+            System.out.println("Current weighting: " + currentWeighting);
             double species1ToSpecies2Ratio = run(currentWeighting, proportionSpecies1, proportionSpecies2);
             weightingAgainstRatios.put(currentWeighting, species1ToSpecies2Ratio);
 
