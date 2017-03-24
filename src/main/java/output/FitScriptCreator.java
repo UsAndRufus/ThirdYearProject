@@ -16,40 +16,75 @@ public class FitScriptCreator {
 
     private static final String FILE_TYPE = ".data";
     private static final Path FIT_SCRIPT_PATH = Paths.get("ThirdYearProject/gnuplot/fit.plt");
+    private static final Path COMPETITORS_FIT_SCRIPT_PATH = Paths.get("ThirdYearProject/gnuplot/fit_competitors.plt");
+    private static final Path PROPORTION_FIT_SCRIPT_PATH = Paths.get("ThirdYearProject/gnuplot/multirun.plt");
     private static final String CREATED_DIRECTORY_PATH_STRING = "ThirdYearProject/gnuplot/created/";
 
     public static void main(String[] args) throws IOException {
         System.out.println("Run from outside ThirdYearProject");
-        String dataFilePathString = args[0];
+        String mode = args[0];
 
-        createFor(dataFilePathString);
 
+        switch(mode) {
+            case "normal":
+                createFor(args[1], FIT_SCRIPT_PATH);
+                break;
+            case "multirun":
+                createFor(args[1], PROPORTION_FIT_SCRIPT_PATH);
+                break;
+            case "competitors":
+                createCompetitors(args[1], args[2]);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown script option");
+        }
     }
 
-    public static void createFor(String dataFilePathString) throws IOException {
+    public static void createFor(String dataFilePathString, Path path) throws IOException {
+
+        Path dataFilePath = createDataFilePath(dataFilePathString);
+
+        Path createdFitScript = createFile(dataFilePath, path);
+
+        replaceFilename(createdFitScript, dataFilePath, "");
+    }
+
+    public static void createCompetitors(String species1PathString, String species2PathString) throws IOException {
+        Path species1DataFilePath = createDataFilePath(species1PathString);
+        Path species2DataFilePath = createDataFilePath(species2PathString);
+
+        Path createdFitScript = createFile(species1DataFilePath, COMPETITORS_FIT_SCRIPT_PATH);
+
+        replaceFilename(createdFitScript, species1DataFilePath, "_s1");
+        replaceFilename(createdFitScript, species2DataFilePath, "_s2");
+    }
+
+    private static Path createDataFilePath(String dataFilePathString) {
         if (!(dataFilePathString.startsWith("ThirdYearProject/"))) {
             System.out.println("Filepath argument must start with ThirdYearProject/");
             throw new IllegalArgumentException();
         }
 
-        Path dataFilePath = Paths.get(dataFilePathString);
+        return Paths.get(dataFilePathString);
+    }
 
+    private static Path createFile(Path dataFilePath, Path fitScriptPath) throws IOException {
         String filename = dataFilePath.getFileName().toString();
         filename = "fit_" + filename.substring(0, filename.length() - FILE_TYPE.length());
         Path createdFitScript = Paths.get(CREATED_DIRECTORY_PATH_STRING + filename);
-        Files.copy(FIT_SCRIPT_PATH, createdFitScript, REPLACE_EXISTING, COPY_ATTRIBUTES);
+        Files.copy(fitScriptPath, createdFitScript, REPLACE_EXISTING, COPY_ATTRIBUTES);
 
-        replaceFilename(createdFitScript, dataFilePath);
+        return createdFitScript;
     }
 
-    private static void replaceFilename(Path fitScript, Path dataFilePath) throws IOException {
+    private static void replaceFilename(Path fitScript, Path dataFilePath, String postfix) throws IOException {
         Charset charset = StandardCharsets.UTF_8;
 
         String content = new String(Files.readAllBytes(fitScript), charset);
         String relativeFilePath = fitScript.getParent().relativize(dataFilePath).toString();
         relativeFilePath = relativeFilePath.replace("\\", "/");
-        content = content.replaceAll(REPLACE_PATH_STRING, relativeFilePath);
-        content = content.replaceAll(REPLACE_NAME_STRING, dataFilePath.getFileName().toString());
+        content = content.replaceAll(REPLACE_PATH_STRING + postfix, relativeFilePath);
+        content = content.replaceAll(REPLACE_NAME_STRING + postfix, dataFilePath.getFileName().toString());
         Files.write(fitScript, content.getBytes(charset));
     }
 }

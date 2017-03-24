@@ -119,31 +119,7 @@ public class Grid {
         return numberOfColumns;
     }
 
-    // Temporary printing method, remove or move to other class later
-    public void printToConsole() {
-        int numberOfVegetationCells = 0;
-        int totalNumberOfCells = 0;
-
-        for (int currentRow = 0; currentRow < numberOfRows; currentRow++) {
-            for (int currentColumn = 0; currentColumn < numberOfColumns; currentColumn++) {
-                if (cellGrid[currentRow][currentColumn] instanceof Vegetation) {
-                    System.out.print("X");
-                    numberOfVegetationCells++;
-                    totalNumberOfCells++;
-                } else {
-                    System.out.print("o");
-                    totalNumberOfCells++;
-                }
-            }
-            System.out.println();
-        }
-
-        System.out.println("" + numberOfVegetationCells + "/" + totalNumberOfCells + " vegetation/total");
-        System.out.println();
-    }
-
-    public void printStats()  {
-
+    public Map<String,Integer> getCellTypeCounts() {
         int numberOfVegetationCells = 0;
         int numberOfSpecies1Cells = 0;
         int numberOfSpecies2Cells = 0;
@@ -163,9 +139,52 @@ public class Grid {
             }
         }
 
-        System.out.println("Vegetation cells: " + numberOfVegetationCells
-                + "; species 1 cells: " + numberOfSpecies1Cells
-                + "; species 2 cells: " + numberOfSpecies2Cells
-                + "; non-veg: " + numberOfNonVegCells);
+        Map<String, Integer> cellTypeCounts = new HashMap<>(4);
+
+        cellTypeCounts.put("Vegetation", numberOfVegetationCells);
+        cellTypeCounts.put("CompetitorSpecies1", numberOfSpecies1Cells);
+        cellTypeCounts.put("CompetitorSpecies2", numberOfSpecies2Cells);
+        cellTypeCounts.put("NonVegetation", numberOfNonVegCells);
+
+        return cellTypeCounts;
+    }
+
+    // Temporary printing method, remove or move to other class later
+    public void printToConsole() {
+
+
+        for (int currentRow = 0; currentRow < numberOfRows; currentRow++) {
+            for (int currentColumn = 0; currentColumn < numberOfColumns; currentColumn++) {
+                Cell cell = cellGrid[currentRow][currentColumn];
+                if (cell instanceof Vegetation) {
+                    System.out.print("X");
+                } else if (cell instanceof CompetitorSpecies1) {
+                    System.out.print("1");
+                } else if (cell instanceof CompetitorSpecies2) {
+                    System.out.print("2");
+                } else {
+                    System.out.print("o");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public void printStats()  {
+
+        Map<String, Integer> cellTypeCounts = getCellTypeCounts();
+
+        double allCells = (double) numberOfRows * numberOfColumns;
+
+        System.out.println("Total number of cells: " + (int) allCells);
+
+        System.out.println("Vegetation cells: " + (cellTypeCounts.get("Vegetation") / allCells)
+                + "; species 1 cells: " + (cellTypeCounts.get("CompetitorSpecies1") / allCells)
+                + "; species 2 cells: " + (cellTypeCounts.get("CompetitorSpecies2")/ allCells)
+                + "; non-veg: " + (cellTypeCounts.get("NonVegetation") / allCells));
+
+        double totalNumberVegCells = (double) cellTypeCounts.get("CompetitorSpecies1")
+                + cellTypeCounts.get("CompetitorSpecies2") + cellTypeCounts.get("Vegetation");
+        System.out.println("Proportion of all veg cells: " + (totalNumberVegCells / allCells));
     }
 }

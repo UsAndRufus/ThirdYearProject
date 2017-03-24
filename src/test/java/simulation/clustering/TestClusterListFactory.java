@@ -3,6 +3,7 @@ package simulation.clustering;
 import simulation.grid.Grid;
 import simulation.grid.Position;
 import simulation.grid.TestGridFactory;
+import simulation.grid.cell.Vegetation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class TestClusterListFactory {
     public static List<Cluster> getStandardTestClusterList() {
         Grid grid = TestGridFactory.createTestGrid();
         KalahariClusteringMetric kalahariClusteringMetric = new KalahariClusteringMetric(grid);
-        return kalahariClusteringMetric.getClusters();
+        return kalahariClusteringMetric.getClusters(Vegetation.class);
     }
 
     public static List<Cluster> getSmallClustersList() {

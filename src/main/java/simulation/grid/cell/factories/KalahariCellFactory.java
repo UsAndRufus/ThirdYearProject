@@ -17,7 +17,7 @@ public class KalahariCellFactory extends CellFactory {
 
     @Override
     public Cell createCell() {
-        if (random.nextDouble() <= proportionVegetation) {
+        if (random.nextDouble() < proportionVegetation) {
             return new Vegetation();
         } else {
             return new NonVegetation();

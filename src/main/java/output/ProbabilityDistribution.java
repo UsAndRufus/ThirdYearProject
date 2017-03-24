@@ -1,5 +1,13 @@
 package output;
 
+import simulation.clustering.Cluster;
+import simulation.clustering.ClusterStatistics;
+import simulation.clustering.KalahariClusteringMetric;
+import simulation.grid.Grid;
+import simulation.grid.cell.Cell;
+import simulation.grid.cell.Vegetation;
+
+import java.util.List;
 import java.util.Map;
 
 public class ProbabilityDistribution {
@@ -31,5 +39,20 @@ public class ProbabilityDistribution {
 
     public String getDoubleColumnName() {
         return doubleColumnName;
+    }
+
+    public static ProbabilityDistribution createDefaultProbabilityDistribution(Grid grid,
+                                                                               Class<? extends Cell> cellClass,
+                                                                               String metricType) {
+        KalahariClusteringMetric kalahariClusteringMetric = new KalahariClusteringMetric(grid);
+
+        List<Cluster> clusters = kalahariClusteringMetric.getClusters(cellClass);
+
+        ClusterStatistics clusterStatistics = new ClusterStatistics(clusters);
+
+        Map<Integer, Double> distribution = clusterStatistics.getCumulativeProbabilitiesNew();
+
+        return new ProbabilityDistribution(distribution, metricType, "Cluster size",
+                 "P(A>=a)");
     }
 }

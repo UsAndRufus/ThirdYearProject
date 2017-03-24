@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import simulation.grid.Grid;
 import simulation.grid.TestGridFactory;
+import simulation.grid.cell.Vegetation;
 import simulation.grid.cell.factories.KalahariTestCellGridFactory;
 import simulation.grid.cell.factories.TestCellFactory;
 
@@ -27,7 +28,7 @@ public class KalahariClusteringMetricTest {
 
     @Test
     public void testGetClusters() throws Exception {
-        List<Cluster> createdClusters = kalahariClusteringMetric.getClusters();
+        List<Cluster> createdClusters = kalahariClusteringMetric.getClusters(Vegetation.class);
 
         List<Cluster> expectedClusters = kalahariTestCellGridFactory.getClusters();
 

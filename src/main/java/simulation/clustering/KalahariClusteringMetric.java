@@ -2,6 +2,7 @@ package simulation.clustering;
 
 import simulation.grid.Grid;
 import simulation.grid.Position;
+import simulation.grid.cell.Cell;
 import simulation.grid.cell.Vegetation;
 
 import java.util.*;
@@ -18,15 +19,15 @@ public class KalahariClusteringMetric {
     }
 
 
-    public List<Cluster> getClusters() {
+    public List<Cluster> getClusters(Class<? extends Cell> cellClass) {
         List<Cluster> clusters = new ArrayList<>();
 
         for (int x = 0; x < grid.getNumberOfColumns(); x++) {
             for (int y = 0; y < grid.getNumberOfRows(); y++) {
                 Position currentPosition = new Position(x,y);
-                if ((grid.getCell(currentPosition) instanceof Vegetation) &&
+                if ((cellClass.isInstance(grid.getCell(currentPosition))) &&
                         (!visitedPositions.contains(currentPosition))) {
-                    Cluster currentCluster = createClusterFrom(currentPosition);
+                    Cluster currentCluster = createClusterFrom(currentPosition, cellClass);
                     visitedPositions.addAll(currentCluster.getPositions());
                     if (currentCluster.getNumberOfPositionsInCluster() != 0) {
                         clusters.add(currentCluster);
@@ -38,7 +39,7 @@ public class KalahariClusteringMetric {
         return clusters;
     }
 
-    private Cluster createClusterFrom(Position initialPosition) {
+    private Cluster createClusterFrom(Position initialPosition, Class<? extends Cell> cellClass) {
         Cluster cluster = new Cluster();
 
         Stack<Position> positionsToCheck = new Stack<>();
@@ -53,7 +54,7 @@ public class KalahariClusteringMetric {
             positionsToCheck.addAll(
                     currentPosition.getNeighbours()
                     .stream()
-                    .filter(neighbour -> (grid.getCell(neighbour) instanceof Vegetation)
+                    .filter(neighbour -> (cellClass.isInstance(grid.getCell(neighbour)))
                             && (!cluster.contains(neighbour)))
                     .collect(Collectors.toList()));
 
