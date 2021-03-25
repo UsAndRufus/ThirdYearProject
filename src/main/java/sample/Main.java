@@ -34,14 +34,14 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //launch(args);
-        SimulationParameters simulationParameters = new SimulationParameters(500, 500, 0.2, 200);
-        double proportionVegetation = 0.3;
+        SimulationParameters simulationParameters = new SimulationParameters(500, 500, 0.2, 500);
+        double proportionVegetation = 0.32;
         DensityParameters densityParameters = new DensityParameters(3.0, 10, "pareto");
 
         Kalahari kalahari = new Kalahari(simulationParameters, proportionVegetation, densityParameters);
 
         long start = System.currentTimeMillis();
-        //kalahari.run(true);
+        kalahari.run(true);
         System.out.println("Run took " + (System.currentTimeMillis() - start) + "ms");
 
         ProbabilityDistribution probabilityDistribution
@@ -50,7 +50,7 @@ public class Main extends Application {
 
         SimulationRunFileWriter simulationRunFileWriter = new SimulationRunFileWriter();
         try {
-            simulationRunFileWriter.writeSimulationRunToFile("kalahari", probabilityDistribution, simulationParameters,
+            simulationRunFileWriter.writeSimulationRunToFile("pareto", probabilityDistribution, simulationParameters,
                     proportionVegetation, densityParameters);
         } catch (IOException e) {
             e.printStackTrace();

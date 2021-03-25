@@ -12,9 +12,9 @@ import java.util.Map;
 public class MultiRunCompetitors {
 
     public static void main(String[] args) {
-        double proportionSpecies1 = 0.1;
-        double proportionSpecies2 = 0.3;
-        double step = 0.1;
+        double proportionSpecies1 = 0.16;
+        double proportionSpecies2 = 0.16;
+        double step = 0.05;
         double currentWeighting = 0.0;
 
         Map<Double, Double> weightingAgainstRatios = new HashMap<>();
@@ -47,8 +47,14 @@ public class MultiRunCompetitors {
 
         Map<String, Integer> cellTypeCounts = competitors.getGrid().getCellTypeCounts();
 
-        double species1ToSpecies2Ratio = ((double) cellTypeCounts.get("CompetitorSpecies1"))
-                / ((double) cellTypeCounts.get("CompetitorSpecies2"));
+        //double species1ToSpecies2Ratio = ((double) cellTypeCounts.get("CompetitorSpecies1"))
+        //        / ((double) cellTypeCounts.get("CompetitorSpecies2"));
+
+        double allVegetationCells = ((double) cellTypeCounts.get("CompetitorSpecies1")
+                + cellTypeCounts.get("CompetitorSpecies2"));
+
+        double species1ToSpecies2Ratio = ((double) (cellTypeCounts.get("CompetitorSpecies1")
+                - cellTypeCounts.get("CompetitorSpecies2"))) / (allVegetationCells);
 
         return species1ToSpecies2Ratio;
     }

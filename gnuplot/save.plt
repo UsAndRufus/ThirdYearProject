@@ -4,11 +4,11 @@
 #  gnuplot>   load 'save.plt'
 #  gnuplot>   !mv my-plot.ps another-file.ps
 set size 1.0, 0.6
-set terminal postscript portrait enhanced mono dashed lw 1 "Helvetica" 14
-#set terminal png large
-set output "my-plot.ps"
+#set terminal postscript portrait enhanced mono dashed lw 1 "Helvetica" 14
+set terminal png large
+set output "my-plot.png"
 replot
-set terminal x11
+set terminal windows
 set size 1,1
 
 #      set terminal postscript {<mode>} {enhanced | noenhanced}

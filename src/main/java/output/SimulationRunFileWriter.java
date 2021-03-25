@@ -50,7 +50,7 @@ public class SimulationRunFileWriter {
         Path path = PathCreator.createPath(ROOT_PATH, name, FILE_ENDING);
 
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-            writer.write("# " + "Weighting" + WHITESPACE + "Ratio");
+            writer.write("# " + "Weighting" + WHITESPACE + "Ratio" + System.lineSeparator());
 
 
             List<String> linesToWrite =

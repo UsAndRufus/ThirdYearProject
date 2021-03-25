@@ -18,12 +18,19 @@ import java.util.List;
 public class MainCompetitors {
 
     public static void main(String[] args) {
-        SimulationParameters simulationParameters = new SimulationParameters(500, 500, 0.2, 200);
+        SimulationParameters simulationParameters = new SimulationParameters(500, 500, 0.2, 500);
         DensityParameters densityParameters = new DensityParameters(3.0, 10, "pareto");
 
-        double weightingFactor = 0.05;
-        double proportionSpecies1 = 0.1;
-        double proportionSpecies2 = 0.2;
+        double weightingFactor = 1.0;
+        double proportionSpecies1 = 0.16;
+        double proportionSpecies2 = 0.16;
+
+        /*
+        Wrote image of run to data\images\competitors_1.0_pareto~2017-05-01-12-34.png
+        Total number of cells: 250000
+        Vegetation cells: 0.0; species 1 cells: 0.128252; species 2 cells: 0.191704; non-veg: 0.680044
+        Proportion of all veg cells: 0.319956
+         */
 
         Competitors competitors = new Competitors(simulationParameters, proportionSpecies1, proportionSpecies2,
                 weightingFactor, densityParameters);
